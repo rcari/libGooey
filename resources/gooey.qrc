@@ -1,0 +1,29 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/gooey">
+	<file>images/icons/area.close.png</file>
+	<file>images/icons/area.detach.png</file>
+	<file>images/icons/area.move.png</file>
+	<file>images/icons/area.png</file>
+	<file>images/icons/area.split.horizontal.png</file>
+	<file>images/icons/area.split.vertical.png</file>
+	<file>images/icons/block.property.png</file>
+	<file>images/icons/global.arrow.down.png</file>
+	<file>images/icons/global.arrow.left.png</file>
+	<file>images/icons/global.arrow.right.png</file>
+	<file>images/icons/global.arrow.up.png</file>
+	<file>images/icons/global.collapse.png</file>
+	<file>images/icons/global.expand.png</file>
+	<file>images/icons/global.file.open.png</file>
+	<file>images/icons/global.folder.open.png</file>
+	<file>images/icons/global.home.png</file>
+	<file>images/icons/global.lock.closed.png</file>
+	<file>images/icons/global.lock.open.png</file>
+	<file>images/icons/global.go.left.png</file>
+	<file>images/icons/global.go.right.png</file>
+	<file>images/icons/global.select.png</file>
+	<file>images/icons/libraryBrowser.png</file>
+	<file>images/icons/textEditor.png</file>
+	<file>images/icons/view.png</file>
+	<file>text/stylesheet.css</file>
+</qresource>
+</RCC>
