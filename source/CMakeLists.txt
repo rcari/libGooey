@@ -7,11 +7,11 @@ PROJECT ( Gooey C CXX )
 INCLUDE_DIRECTORIES( ${GOOEY_INCLUDES} )
 
 ### ------------- Gooey -------------
+### Source files
 SET( Gooey_SRCS
 	src/GooeyApplication.cpp
 	src/GooeyEngine.cpp
 )
-
 INCLUDE( src/commands/sources.cmake )
 INCLUDE( src/common/sources.cmake )
 INCLUDE( src/layout/sources.cmake )
@@ -19,15 +19,15 @@ INCLUDE( src/views/sources.cmake )
 INCLUDE( src/widgets/sources.cmake )
 INCLUDE( src/windows/sources.cmake )
 
+### Header files
 SET( Gooey_HDRS
 	inc/GooeyApplication.hpp
 	inc/GooeyExport.hpp
 )
-
+### Qt mocable header files
 SET( Gooey_MOC_HDRS
 	inc/GooeyEngine.hpp
 )
-
 INCLUDE( inc/commands/headers.cmake )
 INCLUDE( inc/common/headers.cmake )
 INCLUDE( inc/layout/headers.cmake )
@@ -38,7 +38,7 @@ INCLUDE( inc/windows/headers.cmake )
 ### ------------- MOC --------------
 QT4_WRAP_CPP( Gooey_MOC_SRCS ${Gooey_MOC_HDRS} )
 
-# Target library: Gooey
+# Target library
 ADD_LIBRARY( ${GOOEY_LIBRARY} SHARED ${Gooey_SRCS} ${Gooey_MOC_SRCS} ${Gooey_HDRS} ${Gooey_MOC_HDRS} )
 TARGET_LINK_LIBRARIES( ${GOOEY_LIBRARY} ${KORE_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} )
 
