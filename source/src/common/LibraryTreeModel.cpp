@@ -52,18 +52,24 @@ kbool LibraryTreeModel::hasChildren(const QModelIndex& index)
 		return false;
 	}
 
-	Block* block = getInternalBlock<Block>(index);
+	// Root element
 	if(!index.isValid())
 	{
-		return !_rootLibrary->isEmpty();
+		return _rootLibrary->isBrowsable() && !_rootLibrary->isEmpty();
 	}
-	else if(block->isLibrary())
+
+	// Retrieve the actual block (this is fast!)
+	Block* block = getInternalBlock<Block>(index);
+	if(block->isLibrary())
 	{
 		Library* lib = static_cast<Library*>(block);
 		return lib->isBrowsable() && !lib->isEmpty();
 	}
-	// Block : leaf node !
-	return false;
+	else
+	{
+		// Block : leaf node !
+		return false;
+	}
 }
 
 QModelIndex LibraryTreeModel::parent(const QModelIndex& index) const
@@ -79,12 +85,16 @@ QModelIndex LibraryTreeModel::parent(const QModelIndex& index) const
 
 QModelIndex LibraryTreeModel::index(kint row, kint column, const QModelIndex& parent) const
 {
-	if (_rootLibrary.isNull() || !hasIndex(row, column, parent))
+	if(_rootLibrary.isNull() || !hasIndex(row, column, parent))
 	{
 		return QModelIndex();
 	}
 
 	Library* lib = parent.isValid() ? getInternalBlock<Library>(parent) : _rootLibrary.data();
+	if(lib->size() < row)
+	{
+		return QModelIndex();
+	}
 
 	return createIndex(row, column, lib->at(row));
 }
@@ -93,26 +103,26 @@ kint LibraryTreeModel::rowCount(const QModelIndex& parent) const
 {
 	if(_rootLibrary.isNull())
 	{
+		// No data in this model
 		return 0;
 	}
-
-	if(parent.isValid())
-	{
-		Block* block = getInternalBlock<Block>(parent);
-		if(block->isLibrary())
-		{
-			Library* lib = reinterpret_cast<Library*>( block );
-			return lib->isBrowsable() ? lib->size() : 0;
-		}
-		else
-		{
-			return 0; // Leaf block
-		}
-	}
-	else
+	else if(!parent.isValid())
 	{
 		// Invalid parent: root item
 		return _rootLibrary->size();
+	}
+
+	Block* block = getInternalBlock<Block>(parent);
+	if(block->isLibrary())
+	{
+		// Library
+		Library* lib = static_cast<Library*>( block );
+		return lib->isBrowsable() ? lib->size() : 0;
+	}
+	else
+	{
+		// Standard leaf block
+		return 0;
 	}
 }
 
@@ -123,12 +133,14 @@ kint LibraryTreeModel::columnCount(const QModelIndex&) const
 
 QVariant LibraryTreeModel::data(const QModelIndex& index, kint role) const
 {
-	if (!checkIndexAndModelIntegrity(index) || index.column() != 0)
+	K_ASSERT( index.column() == 0 )
+	if(!checkIndexAndModelIntegrity(index))
 	{
 		return QVariant();
 	}
 
 	Block* block = getInternalBlock<Block>(index);
+	K_ASSERT(block)
 	switch(role)
 	{
 	case Qt::DisplayRole:
@@ -140,7 +152,7 @@ QVariant LibraryTreeModel::data(const QModelIndex& index, kint role) const
 				return userProperty.read(block);
 			}
 		}
-		return block->objectName();
+		return block->blockName();
 	case Qt::ToolTipRole:
 		return block->infoString();
 	case Qt::DecorationRole:
@@ -186,7 +198,7 @@ Qt::ItemFlags LibraryTreeModel::flags(const QModelIndex &index) const
 			break;
 		}
 	}
-
+	// TODO: This might be slightly more complex, it must be taken care of...
 	Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
 	flags |= block->isLibrary() ? Qt::ItemIsDropEnabled : Qt::NoItemFlags;
 	flags |= block->checkFlag(Block::Browsable) ? Qt::ItemIsSelectable : Qt::NoItemFlags;
@@ -197,11 +209,13 @@ Qt::ItemFlags LibraryTreeModel::flags(const QModelIndex &index) const
 
 bool LibraryTreeModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int col, const QModelIndex& parent)
 {
+	// TODO: Worry about that :D
 	return false;
 }
 
 QMimeData* LibraryTreeModel::mimeData(const QModelIndexList& indexes) const
 {
+	// TODO: Worry about that too...
 	if(indexes.isEmpty())
 	{
 		return K_NULL;
@@ -219,6 +233,7 @@ QMimeData* LibraryTreeModel::mimeData(const QModelIndexList& indexes) const
 
 QStringList LibraryTreeModel::mimeTypes() const
 {
+	// TODO: Worry about that too...
 	return QStringList() << G_MIME_BLOCK_INTERNAL;
 }
 
@@ -270,7 +285,9 @@ void LibraryTreeModel::blockChanged()
 void LibraryTreeModel::addingBlock(kint index)
 {
 	Library* lib = static_cast<Library*>(sender());
-	beginInsertRows(getBlockIndex(lib), index, index);
+	QModelIndex modelIndex = getBlockIndex(lib);
+	K_ASSERT( lib == _rootLibrary ? true : modelIndex.isValid() )
+	beginInsertRows(modelIndex, index, index);
 }
 
 void LibraryTreeModel::blockAdded(kint index)
@@ -314,8 +331,6 @@ void LibraryTreeModel::blocksSwapped(kint index1, kint index2)
 	// XXX: This is wrong... We'll need to deal with insertions / removal of childnodes.
 	Library* lib = static_cast<Library*>(sender());
 	QModelIndex libIndex = getBlockIndex(lib);
-	QModelIndex lastBlockIndex = index((index1 > index2) ? index1 : index2, 0, libIndex);
-
 	emit dataChanged(index(index1, 0, libIndex), index(index1, 0, libIndex));
 	emit dataChanged(index(index2, 0, libIndex), index(index2, 0, libIndex));
 }
@@ -358,8 +373,9 @@ void LibraryTreeModel::bindBlockEvents(Block* block)
 		connect(lib, SIGNAL(addingBlock(kint)), SLOT(addingBlock(kint)));
 		connect(lib, SIGNAL(blockAdded(kint)), SLOT(blockAdded(kint)));
 
-		connect(lib, SIGNAL(insertingBlock(kint)), SLOT(insertingBlock(kint)));
-		connect(lib, SIGNAL(blockInserted(kint)), SLOT(blockInserted(kint)));
+		// TODO: Cleanup after testing
+		/*connect(lib, SIGNAL(insertingBlock(kint)), SLOT(insertingBlock(kint)));
+		connect(lib, SIGNAL(blockInserted(kint)), SLOT(blockInserted(kint)));*/
 
 		connect(lib, SIGNAL(removingBlock(kint)), SLOT(removingBlock(kint)));
 		connect(lib, SIGNAL(blockRemoved(kint)), SLOT(blockRemoved(kint)));
@@ -381,9 +397,9 @@ void LibraryTreeModel::unbindBlockEvents(Block* block)
 {
 	//qDebug("Unbinding block events @ %p : %s / %p", this, qPrintable(block->objectName()), block);
 	block->disconnect(this);
-	Library* lib = block->isLibrary() ? static_cast<Library*>(block) : K_NULL;
-	if(lib)
+	if(block->isLibrary())
 	{
+		Library* lib = static_cast<Library*>(block);
 		for(kint i = 0; i < lib->size(); i++)
 		{
 			unbindBlockEvents(lib->at(i));
