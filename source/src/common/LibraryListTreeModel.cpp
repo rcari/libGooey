@@ -267,7 +267,20 @@ void LibraryListTreeModel::cleared()
 
 void LibraryListTreeModel::bindBlockEvents(Block* block)
 {
-	connect(block, SIGNAL(blockChanged()), SLOT(blockChanged()));
+	QMetaProperty userProperty = block->metaObject()->userProperty();
+	if(userProperty.isValid() && userProperty.hasNotifySignal())
+	{
+		static const int blockChangedIndex = metaObject()->indexOfSlot(QMetaObject::normalizedSignature("blockChanged()"));
+		connect(block, userProperty.notifySignal(), this, metaObject()->method(blockChangedIndex));
+	}
+	else
+	{
+		qWarning(
+				"%s - Block %s has no default user property with NOTIFY signal!",
+				__FUNCTION__,
+				qPrintable(block->objectClassName())
+			);
+	}
 
 	Library* lib = block->isLibrary() ? static_cast<Library*>(block) : K_NULL;
 	if(lib && lib->isBrowsable())

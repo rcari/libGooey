@@ -365,7 +365,20 @@ void LibraryTreeModel::cleared()
 
 void LibraryTreeModel::bindBlockEvents(Block* block)
 {
-	connect(block, SIGNAL(blockChanged()), SLOT(blockChanged()));
+	QMetaProperty userProperty = block->metaObject()->userProperty();
+	if(userProperty.isValid() && userProperty.hasNotifySignal())
+	{
+		static const int blockChangedIndex = staticMetaObject.indexOfSlot(QMetaObject::normalizedSignature("blockChanged()"));
+		connect(block, userProperty.notifySignal(), this, staticMetaObject.method(blockChangedIndex));
+	}
+	else
+	{
+		qWarning(
+				"%s - Block %s has no default user property with NOTIFY signal!",
+				__FUNCTION__,
+				qPrintable(block->objectClassName())
+			);
+	}
 
 	Library* lib = block->isLibrary() ? static_cast<Library*>(block) : K_NULL;
 	if(lib && lib->isBrowsable())
@@ -373,14 +386,9 @@ void LibraryTreeModel::bindBlockEvents(Block* block)
 		connect(lib, SIGNAL(addingBlock(kint)), SLOT(addingBlock(kint)));
 		connect(lib, SIGNAL(blockAdded(kint)), SLOT(blockAdded(kint)));
 
-		// TODO: Cleanup after testing
-		/*connect(lib, SIGNAL(insertingBlock(kint)), SLOT(insertingBlock(kint)));
-		connect(lib, SIGNAL(blockInserted(kint)), SLOT(blockInserted(kint)));*/
-
 		connect(lib, SIGNAL(removingBlock(kint)), SLOT(removingBlock(kint)));
 		connect(lib, SIGNAL(blockRemoved(kint)), SLOT(blockRemoved(kint)));
 
-		//connect(lib, SIGNAL(swappingBlocks(kint,kint)), SLOT(swappingBlocks(kint,kint)));
 		connect(lib, SIGNAL(blocksSwapped(kint,kint)), SLOT(blocksSwapped(kint,kint)));
 
 		connect(lib, SIGNAL(clearing()), SLOT(clearing()));

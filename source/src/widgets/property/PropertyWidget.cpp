@@ -70,18 +70,17 @@ void PropertyWidget::setData(Kore::data::Block* block, kint propertyIndex)
 	QMetaProperty property = _block->metaObject()->property(_propertyIndex);
 	if(property.hasNotifySignal())
 	{
-		const int slotIndex = staticMetaObject.indexOfMethod(QMetaObject::normalizedSignature("update()"));
+		static const int slotIndex = staticMetaObject.indexOfMethod(QMetaObject::normalizedSignature("update()"));
 		Q_ASSERT(slotIndex != -1);
 		connect(_block, property.notifySignal(), this, staticMetaObject.method(slotIndex));
 	}
 	else
 	{
-		qDebug(
-				"GooeyEngine / Property widget / Block %s's property %s has no notify signal, "
-				"using default blockChanged signal.",
-				_block->metaObject()->className(),
+		qWarning(
+				"%s / Block %s's property %s has no notify signal, it won't be updated!",
+				__FUNCTION__,
+				qPrintable(block->objectClassName()),
 				property.name()
 			);
-		connect(_block, SIGNAL(blockChanged()), SLOT(update()));
 	}
 }
