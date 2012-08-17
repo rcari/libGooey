@@ -224,11 +224,9 @@ Qt::ItemFlags BlockModel::flags(const QModelIndex &index) const
 
 		BlockPropertyIndex* pIndex = static_cast<BlockPropertyIndex*>(mIndex);
 
-		Qt::ItemFlags result = Qt::ItemIsSelectable;
+		Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 		// Is the data editable ?
 		result |= ( pIndex->blockProperty().isWritable() ) ? Qt::ItemIsEditable : Qt::NoItemFlags;
-		// Is it enabled ?
-		result |= _block->isFrozen() ? Qt::NoItemFlags : Qt::ItemIsEnabled;
 		// Is it checkable ?
 		result |= ( pIndex->blockProperty().type() == QVariant::Bool ) ? Qt::ItemIsUserCheckable : Qt::NoItemFlags;
 
