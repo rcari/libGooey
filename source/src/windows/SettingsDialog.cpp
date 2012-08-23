@@ -99,11 +99,11 @@ void SettingsDialog::save(const QString& name, const QVariant& v)
 
 void SettingsDialog::loadSettings(QListWidget* list, QStackedWidget* stack)
 {
-	const Library* metaBlocks = KoreEngine::MetaBlocks();
+	const QList<MetaBlock*> metaBlocks = KoreEngine::MetaBlocks();
 
-	for(kint i = 0; i < metaBlocks->size(); i++)
+	for(kint i = 0; i < metaBlocks.size(); i++)
 	{
-		const MetaBlock* mb = static_cast<const MetaBlock*>(metaBlocks->at(i));
+		MetaBlock* mb = metaBlocks.at(i);
 		QVariant variant = mb->blockProperty(Block::BlockSettings);
 		if(!variant.isValid())
 		{

@@ -28,6 +28,7 @@
 
 #include <GooeyApplication.hpp>
 #include <GooeyEngine.hpp>
+#include <GooeyModule.hpp>
 using namespace Gooey;
 
 #include <KoreApplication.hpp>
@@ -40,7 +41,11 @@ using namespace Kore::data;
 
 GooeyApplication::GooeyApplication(kint argc, kchar** argv)
 {
+	qDebug("Gooey / Loading GooeyApplication");
+
 	K_ASSERT( KoreApplication::Instance() ) // KoreApplication must be instanciated first.
+
+	GooeyModule::PrivateInstance()->load();
 
 	Library* appLib = new Library(Block::System);
 	appLib->blockName("Gooey Internals");

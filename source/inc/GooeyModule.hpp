@@ -32,9 +32,14 @@
 
 namespace Gooey {
 
+class GooeyApplication;
+
 class GooeyModule : public Kore::plugin::Module
 {
+	Q_OBJECT
 	K_MODULE
+
+	friend class GooeyApplication;
 
 public:
 	virtual QString name() const;

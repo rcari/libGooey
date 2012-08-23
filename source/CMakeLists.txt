@@ -29,11 +29,11 @@ INCLUDE( src/windows/sources.cmake )
 SET( Gooey_HDRS
 	inc/GooeyApplication.hpp
 	inc/GooeyExport.hpp
-	inc/GooeyModule.hpp
 )
 ### Qt mocable header files
 SET( Gooey_MOC_HDRS
 	inc/GooeyEngine.hpp
+	inc/GooeyModule.hpp
 )
 INCLUDE( inc/commands/headers.cmake )
 INCLUDE( inc/common/headers.cmake )
