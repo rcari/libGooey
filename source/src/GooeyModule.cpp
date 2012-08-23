@@ -26,86 +26,28 @@
  *
  */
 
-#include <layout/Area.hpp>
-#include <layout/Element.hpp>
-using namespace Gooey::layout;
-
 #include <GooeyModule.hpp>
+using namespace Gooey;
+using namespace Kore::plugin;
 
-#define K_BLOCK_TYPE Gooey::layout::Element
-#include <BlockMacros.hpp>
-K_BLOCK_BEGIN
-	K_BLOCK_ICON_DEFAULT
-	K_BLOCK_VIRTUAL
-	K_BLOCK_PROPERTY_METHOD( Gooey::layout::Element::BlockProperty )
-K_BLOCK_END
+K_MODULE_IMPL
 
-Element::Element(QWidget* elementWidget)
-:	_widget(elementWidget),
- 	_wasDetached(false)
+QString GooeyModule::name() const
 {
-	addFlag(Block::Serializable);
+	return QLatin1String("libGooey");
 }
 
-Element::~Element()
+QString GooeyModule::version() const
 {
-	if(!_widget.isNull())
-	{
-		_widget->deleteLater();
-	}
+	return QLatin1String(_GOOEY_VERSION);
 }
 
-QWidget* Element::widget() const
+QString GooeyModule::author() const
 {
-	return _widget;
+	return QLatin1String("Moving Pixels Labs");
 }
 
-kbool Element::isHidden() const
+QString GooeyModule::url() const
 {
-	return _widget->isHidden();
-}
-
-kbool Element::isDetached() const
-{
-	return _widget->parent() == K_NULL;
-}
-
-void Element::wasDetached(kbool detached)
-{
-	_wasDetached = detached;
-}
-
-kbool Element::wasDetached() const
-{
-	return _wasDetached;
-}
-
-QRect Element::geometry() const
-{
-	return widget()->geometry();
-}
-
-void Element::geometry(const QRect& g)
-{
-	widget()->setGeometry(g);
-}
-
-Area* Element::area()
-{
-	if(!library())
-	{
-		return K_NULL;
-	}
-	return library()->fastInherits<Gooey::layout::Area>() ? static_cast<Area*>(library()) : K_NULL;
-}
-
-QVariant Element::BlockProperty(kint property)
-{
-	switch(property)
-	{
-	case Block::BlockTypeName:
-		return tr("Layout element");
-	default:
-		return QVariant();
-	}
+	return QLatin1String("http://mp-labs.net");
 }

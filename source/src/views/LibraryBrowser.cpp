@@ -40,6 +40,8 @@ using namespace Gooey::common;
 #include <data/BlockSettings.hpp>
 using namespace Kore::data;
 
+#include <GooeyModule.hpp>
+
 #define K_BLOCK_TYPE Gooey::views::LibraryBrowser
 #include <BlockMacros.hpp>
 K_BLOCK_BEGIN

@@ -30,6 +30,8 @@
 using namespace Gooey;
 using namespace Gooey::common;
 
+#include <GooeyModule.hpp>
+
 #include <layout/View.hpp>
 using namespace Gooey::layout;
 

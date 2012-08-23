@@ -27,6 +27,7 @@
  */
 
 #include <GooeyEngine.hpp>
+#include <GooeyModule.hpp>
 #include <layout/Area.hpp>
 #include <layout/View.hpp>
 using namespace Gooey::layout;

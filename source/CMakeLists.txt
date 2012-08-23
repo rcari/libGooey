@@ -16,6 +16,7 @@ INCLUDE_DIRECTORIES( ${GOOEY_INCLUDES} )
 SET( Gooey_SRCS
 	src/GooeyApplication.cpp
 	src/GooeyEngine.cpp
+	src/GooeyModule.cpp
 )
 INCLUDE( src/commands/sources.cmake )
 INCLUDE( src/common/sources.cmake )
@@ -28,6 +29,7 @@ INCLUDE( src/windows/sources.cmake )
 SET( Gooey_HDRS
 	inc/GooeyApplication.hpp
 	inc/GooeyExport.hpp
+	inc/GooeyModule.hpp
 )
 ### Qt mocable header files
 SET( Gooey_MOC_HDRS

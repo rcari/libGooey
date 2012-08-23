@@ -34,6 +34,8 @@ using namespace Gooey::layout;
 
 #include <KoreApplication.hpp>
 
+#include <GooeyModule.hpp>
+
 #define K_BLOCK_TYPE Gooey::views::TextEditor
 #include <BlockMacros.hpp>
 K_BLOCK_BEGIN

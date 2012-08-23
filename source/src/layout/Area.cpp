@@ -30,6 +30,8 @@
 #include <layout/View.hpp>
 using namespace Gooey::layout;
 
+#include <GooeyModule.hpp>
+
 #define K_BLOCK_TYPE Gooey::layout::Area
 #include <BlockMacros.hpp>
 K_BLOCK_BEGIN
