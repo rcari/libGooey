@@ -90,9 +90,13 @@ void Area::removeBlock(Block* b)
 {
 	Element::removeBlock(b);
 	Element* element = static_cast<Element*>(b);
-	// Remove the widget from the splitter.
-	element->widget()->hide();
-	element->widget()->setParent(K_NULL);
+
+	if(element->widget())
+	{
+		// Remove the widget from the splitter.
+		element->widget()->hide();
+		element->widget()->setParent(K_NULL);
+	}
 }
 
 void Area::replace(Element* element, Element* newElement)
