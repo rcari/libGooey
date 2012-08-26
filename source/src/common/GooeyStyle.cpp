@@ -46,6 +46,8 @@ void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
                                     QPainter *painter, const QWidget *widget) const
 {
 	switch (element) {
+	case PE_FrameFocusRect:
+		return;
 	case PE_IndicatorBranch:
 	{
 		int mid_h = option->rect.x() + option->rect.width() / 2;
@@ -56,7 +58,7 @@ void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
     	int aft_v = mid_v;
     	static const int decoration_size = 9;
 
-    	QColor borderColor = option->palette.background().color().darker(178);
+    	QColor borderColor = option->palette.background().color().lighter(178);
     	QColor crossColor = mergedColors(option->palette.background().color(), option->palette.text().color());
 
     	painter->setPen(borderColor);

@@ -10,6 +10,7 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/BlockModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/FlowLayout.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyItemDelegate.cpp
+	${CMAKE_CURRENT_LIST_DIR}/GooeyStyle.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryFilterProxyModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryListModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryListTreeModel.cpp
@@ -18,11 +19,3 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/PropertyWidgetProxy.cpp
 )
 
-IF (APPLE)
-SET (
-	Gooey_SRCS
-	${Gooey_SRCS}
-	
-	${CMAKE_CURRENT_LIST_DIR}/GooeyStyle.cpp
-)
-ENDIF (APPLE)
