@@ -31,7 +31,7 @@ using namespace Gooey::common;
 
 BlockAction::BlockAction(QObject* parent)
 :	QAction(parent),
- 	BlockExtension(GOOEY_BLOCK_ACTION_NAME)
+ 	BlockExtension("BlockAction", GOOEY_BLOCK_ACTION_NAME)
 {
 }
 
