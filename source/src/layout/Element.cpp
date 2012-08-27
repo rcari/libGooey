@@ -33,7 +33,7 @@ using namespace Gooey::layout;
 #include <GooeyModule.hpp>
 
 #define K_BLOCK_TYPE Gooey::layout::Element
-#include <BlockMacros.hpp>
+#include <data/BlockMacros.hpp>
 K_BLOCK_BEGIN
 	K_BLOCK_ICON_DEFAULT
 	K_BLOCK_VIRTUAL

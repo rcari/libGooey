@@ -51,4 +51,4 @@ public:
 }
 
 #define K_MODULE_TYPE Gooey::GooeyModule
-#include <ModuleMacros.hpp>
+#include <plugin/ModuleMacros.hpp>

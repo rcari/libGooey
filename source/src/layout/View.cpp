@@ -41,7 +41,7 @@ using namespace Kore::data;
 #include <QtGui/QVBoxLayout>
 
 #define K_BLOCK_TYPE Gooey::layout::View
-#include <BlockMacros.hpp>
+#include <data/BlockMacros.hpp>
 K_BLOCK_BEGIN
 	K_BLOCK_ICON("gooey/images/icons/view.png")
 	K_BLOCK_VIRTUAL

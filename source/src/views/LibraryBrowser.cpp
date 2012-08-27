@@ -43,7 +43,7 @@ using namespace Kore::data;
 #include <GooeyModule.hpp>
 
 #define K_BLOCK_TYPE Gooey::views::LibraryBrowser
-#include <BlockMacros.hpp>
+#include <data/BlockMacros.hpp>
 K_BLOCK_BEGIN
 	K_BLOCK_ICON("gooey/images/icons/libraryBrowser.png")
 	K_BLOCK_ALLOCABLE

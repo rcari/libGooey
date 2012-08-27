@@ -37,7 +37,7 @@ using namespace Gooey::layout;
 #include <GooeyModule.hpp>
 
 #define K_BLOCK_TYPE Gooey::views::TextEditor
-#include <BlockMacros.hpp>
+#include <data/BlockMacros.hpp>
 K_BLOCK_BEGIN
 	K_BLOCK_ICON("gooey/images/icons/textEditor.png")
 	K_BLOCK_ALLOCABLE
