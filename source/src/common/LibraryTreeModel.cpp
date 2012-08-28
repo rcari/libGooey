@@ -198,12 +198,11 @@ Qt::ItemFlags LibraryTreeModel::flags(const QModelIndex &index) const
 			break;
 		}
 	}
+
 	// TODO: This might be slightly more complex, it must be taken care of...
-	Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-	flags |= block->isLibrary() ? Qt::ItemIsDropEnabled : Qt::NoItemFlags;
-	flags |= block->checkFlag(Block::Browsable) ? Qt::ItemIsSelectable : Qt::NoItemFlags;
-	flags |= (block->checkFlag(Block::System|Block::SystemOwned) || !userProperty.isDesignable(block)) ? Qt::NoItemFlags : Qt::ItemIsEditable;
-	flags |= (block->checkFlag(Block::System|Block::SystemOwned) || !userProperty.isDesignable(block)) ? Qt::NoItemFlags : Qt::ItemIsDragEnabled;
+	Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsSelectable;
+	flags |= ( block->isLibrary() ? Qt::ItemIsDropEnabled : Qt::NoItemFlags );
+	flags |= (!block->checkFlag(Block::System|Block::SystemOwned) && userProperty.isDesignable(block)) ? Qt::NoItemFlags : Qt::ItemIsEditable;
 	return flags;
 }
 
