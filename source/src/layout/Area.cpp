@@ -167,7 +167,7 @@ void Area::split(View* view, View* newView, Qt::Orientation orientation, kbool b
 	}
 	else // Orientation differs, we have to insert a new Area that will have the proper orientation.
 	{
-		Area* area = Area::StaticMetaBlock()->createBlockT<Gooey::layout::Area>();
+		Area* area = K_BLOCK_CREATE_INSTANCE(Gooey::layout::Area);
 		area->orientation(orientation);
 		area->addBlock(view);
 		area->split(view, newView, orientation, before);

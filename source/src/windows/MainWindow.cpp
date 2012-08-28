@@ -127,10 +127,8 @@ void MainWindow::setFullscreen(bool full)
 
 Area* MainWindow::createDefaultUI() const
 {
-	Area* area = Area::StaticMetaBlock()->createBlockT<Area>();
-
+	Area* area = K_BLOCK_CREATE_INSTANCE(Area);
 	area->addBlock( LibraryBrowser::StaticMetaBlock()->createBlock() );
-
 	return area;
 }
 

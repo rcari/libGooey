@@ -508,7 +508,7 @@ void View::splitHorizontal()
 
 void View::split(Qt::Orientation orientation)
 {
-	View* view = metaBlock()->createBlockT<View>();
+	View* view = K_BLOCK_CREATE_INSTANCE(Gooey::layout::View);
 	if(this->activeBlock())
 	{
 		view->activeBlock(this->activeBlock());
