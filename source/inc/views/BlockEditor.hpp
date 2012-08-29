@@ -34,6 +34,7 @@
 
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <QtGui/QTreeView>
 
 namespace Gooey { namespace views {
@@ -65,6 +66,7 @@ public:
 private:
 	QLabel*		_iconLabel;
 	QLabel*		_nameLabel;
+	QLineEdit*	_searchEdit;
 	QTreeView*	_treeView;
 
 };

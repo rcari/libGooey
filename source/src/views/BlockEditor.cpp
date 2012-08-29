@@ -37,7 +37,7 @@ using namespace Gooey::common;
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QPushButton>
-#include <QtGui/QTreeView>
+#include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QVBoxLayout>
 
 #include <KoreApplication.hpp>
@@ -58,6 +58,23 @@ G_VIEW_I( Gooey::views::BlockEditor )
 
 /* TRANSLATOR Gooey::views::BlockEditor */
 
+class FilterProxyModel : public QSortFilterProxyModel
+{
+public:
+	FilterProxyModel(QObject* parent)
+	:	QSortFilterProxyModel(parent)
+	{}
+
+	bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+	{
+		// This will only filter leave nodes!
+		QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
+		return	sourceModel()->hasChildren(sourceIndex)
+				?	true
+				:	QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+	}
+};
+
 BlockEditor::BlockEditor()
 :	View(new QWidget)
 {
@@ -67,6 +84,8 @@ BlockEditor::BlockEditor()
 
 	hLayout->addWidget(_iconLabel = new QLabel, 0);
 	hLayout->addWidget(_nameLabel = new QLabel, 1);
+	hLayout->addStretch();
+	hLayout->addWidget(_searchEdit = new QLineEdit);
 
 	QVBoxLayout* vLayout = new QVBoxLayout;
 	vLayout->setMargin(0);
@@ -155,7 +174,12 @@ QTreeView* BlockEditor::treeView()
 
 QAbstractItemModel* BlockEditor::createBlockModel(Block* b)
 {
-	return new BlockModel(b, _treeView);
+	QSortFilterProxyModel* proxy = new FilterProxyModel(_treeView);
+	connect(_searchEdit, SIGNAL(textChanged(const QString&)), proxy, SLOT(setFilterWildcard(const QString&)));
+
+	BlockModel* model = new BlockModel(b, proxy);
+	proxy->setSourceModel(model);
+	return proxy;
 }
 
 void BlockEditor::openPersistentEditors(const QModelIndex& index)

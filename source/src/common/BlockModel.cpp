@@ -180,6 +180,8 @@ QVariant BlockModel::data(const QModelIndex& index, kint role) const
 		break;
 	case Qt::DecorationRole:
 		return GooeyEngine::GetIcon("gooey/block.property.png");
+	case Qt::TextAlignmentRole:
+		return (index.column() == 0) ? Qt::AlignRight : Qt::AlignLeft;
 	 default:
 		return QVariant();
 	}
@@ -214,7 +216,10 @@ QVariant BlockModel::headerData(int section, Qt::Orientation orientation, int ro
 
 Qt::ItemFlags BlockModel::flags(const QModelIndex &index) const
 {
-	K_ASSERT( index.isValid() )
+	if(!index.isValid())
+	{
+		return Qt::NoItemFlags;
+	}
 
 	// Labels for Ancestors and Properties
 	if(index.column() == 1)
