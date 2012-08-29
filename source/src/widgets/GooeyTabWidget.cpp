@@ -26,26 +26,26 @@
  *
  */
 
-#include <widgets/TabWidget.hpp>
+#include <widgets/GooeyTabWidget.hpp>
 using namespace Gooey::widgets;
 
 #include <QtGui/QTabBar>
 
-TabWidget::TabWidget()
+GooeyTabWidget::GooeyTabWidget()
 {
 }
 
-void TabWidget::showTabs()
+void GooeyTabWidget::showTabs()
 {
 	tabBar()->show();
 }
 
-void TabWidget::hideTabs()
+void GooeyTabWidget::hideTabs()
 {
 	tabBar()->hide();
 }
 
-void TabWidget::setTabsVisible(bool visible)
+void GooeyTabWidget::setTabsVisible(bool visible)
 {
 	tabBar()->setVisible(visible);
 }

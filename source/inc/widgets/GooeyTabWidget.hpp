@@ -34,12 +34,12 @@
 
 namespace Gooey { namespace widgets {
 
-class GooeyExport TabWidget : public QTabWidget
+class GooeyExport GooeyTabWidget : public QTabWidget
 {
 	Q_OBJECT
 
 public:
-	TabWidget();
+	GooeyTabWidget();
 
 public slots:
 	void showTabs();

@@ -31,6 +31,7 @@
 #include <GooeyExport.hpp>
 
 #include "../layout/View.hpp"
+#include "../widgets/GooeyLineEdit.hpp"
 
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QLabel>
@@ -66,7 +67,7 @@ public:
 private:
 	QLabel*		_iconLabel;
 	QLabel*		_nameLabel;
-	QLineEdit*	_searchEdit;
+	Gooey::widgets::GooeyLineEdit*	_searchEdit;
 	QTreeView*	_treeView;
 
 };

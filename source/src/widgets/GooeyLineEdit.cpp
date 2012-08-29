@@ -36,6 +36,7 @@ GooeyLineEdit::GooeyLineEdit(QWidget* parent)
  	_lineEdit(new QLineEdit)
 {
 	connect(_lineEdit, SIGNAL(textEdited(const QString&)), SIGNAL(textEdited(const QString&)));
+	connect(_lineEdit, SIGNAL(textChanged(const QString&)), SIGNAL(textChanged(const QString&)));
 
 	QVBoxLayout* vLayout = new QVBoxLayout;
 	vLayout->setSpacing(0);

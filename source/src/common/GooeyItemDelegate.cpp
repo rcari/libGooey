@@ -53,7 +53,7 @@ GooeyItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& opt
 	QWidget* result = K_NULL;
 
 	// Static types...
-    switch(data.type())
+    switch((int)data.type())
 	{
 	case QMetaType::Bool:
 		result = new GooeyCheckBox(parent);

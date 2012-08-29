@@ -28,7 +28,7 @@
 
 #include <views/TextEditor.hpp>
 using namespace Gooey::views;
-#include <widgets/TabWidget.hpp>
+#include <widgets/GooeyTabWidget.hpp>
 using namespace Gooey::widgets;
 using namespace Gooey::layout;
 
@@ -56,11 +56,11 @@ G_VIEW_I( Gooey::views::TextEditor )
 #include <QtGui/QTextEdit>
 
 TextEditor::TextEditor()
-:	View(new TabWidget)
+:	View(new GooeyTabWidget)
 {
 	blockName(tr("Text Editor"));
 
-	TabWidget* tabs = viewWidget<TabWidget>();
+	GooeyTabWidget* tabs = viewWidget<GooeyTabWidget>();
 	tabs->setTabsClosable(true);
 	connect(tabs, SIGNAL(tabCloseRequested(int)), SLOT(closeTab(int)));
 
@@ -88,13 +88,13 @@ kbool TextEditor::activeBlock(Block* b)
 
 void TextEditor::closeActiveTab()
 {
-	TabWidget* tabs = viewWidget<TabWidget>();
+	GooeyTabWidget* tabs = viewWidget<GooeyTabWidget>();
 	closeTab(tabs->currentIndex());
 }
 
 void TextEditor::closeTab(int tabIndex)
 {
-	TabWidget* tabs = viewWidget<TabWidget>();
+	GooeyTabWidget* tabs = viewWidget<GooeyTabWidget>();
 
 	Tab tab = _tabs.at(tabIndex);
 
@@ -115,7 +115,7 @@ void TextEditor::closeTab(int tabIndex)
 
 void TextEditor::addTab(Block* b)
 {
-	TabWidget* tabs = viewWidget<TabWidget>();
+	GooeyTabWidget* tabs = viewWidget<GooeyTabWidget>();
 
 	Tab newTab;
 	newTab.block = b;

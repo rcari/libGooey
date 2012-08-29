@@ -49,6 +49,7 @@ public:
 	QString text() const { return _lineEdit->text(); }
 signals:
 	void textEdited(const QString&);
+	void textChanged(const QString&);
 
 private:
 	QLineEdit* _lineEdit;

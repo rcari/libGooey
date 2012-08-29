@@ -29,6 +29,7 @@
 #include <views/BlockEditor.hpp>
 using namespace Gooey::views;
 using namespace Gooey::layout;
+using namespace Gooey::widgets;
 
 #include <common/BlockModel.hpp>
 #include <common/GooeyItemDelegate.hpp>
@@ -85,7 +86,7 @@ BlockEditor::BlockEditor()
 	hLayout->addWidget(_iconLabel = new QLabel, 0);
 	hLayout->addWidget(_nameLabel = new QLabel, 1);
 	hLayout->addStretch();
-	hLayout->addWidget(_searchEdit = new QLineEdit);
+	hLayout->addWidget(_searchEdit = new GooeyLineEdit, 1);
 
 	QVBoxLayout* vLayout = new QVBoxLayout;
 	vLayout->setMargin(0);

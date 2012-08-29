@@ -9,10 +9,10 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/GooeyDoubleSpinBox.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyLineEdit.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeySpinBox.cpp
+	${CMAKE_CURRENT_LIST_DIR}/GooeyTabWidget.cpp
 	${CMAKE_CURRENT_LIST_DIR}/Group.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GroupForm.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LineGroup.cpp
-	${CMAKE_CURRENT_LIST_DIR}/TabWidget.cpp
 	${CMAKE_CURRENT_LIST_DIR}/property/BoolPropertyWidget.cpp
 	${CMAKE_CURRENT_LIST_DIR}/property/FloatingPointPropertyWidget.cpp
 	${CMAKE_CURRENT_LIST_DIR}/property/IntegerPropertyWidget.cpp

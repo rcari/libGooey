@@ -157,6 +157,8 @@ QVariant LibraryTreeModel::data(const QModelIndex& index, kint role) const
 		return block->infoString();
 	case Qt::DecorationRole:
 		return GooeyEngine::GetBlockIcon( block );
+	case Qt::UserRole:
+		return QVariant::fromValue((void*)block);
 	default:
 		break;
 	}

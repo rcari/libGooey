@@ -46,7 +46,7 @@ public:
 	void addWidget(QWidget* widget);
 	void insertWidget(int index, QWidget* widget);
 	void removeWidget(QWidget* widget);
-	void removeWidgetAt(int index);
+	QWidget* removeWidgetAt(int index);
 
 	int widgetsNb();
 };

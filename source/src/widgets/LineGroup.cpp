@@ -55,9 +55,9 @@ void LineGroup::removeWidget(QWidget* widget)
 	layout()->removeWidget(widget);
 }
 
-void LineGroup::removeWidgetAt(int index)
+QWidget* LineGroup::removeWidgetAt(int index)
 {
-	layout()->takeAt(index);
+	return layout()->takeAt(index)->widget();
 }
 
 int LineGroup::widgetsNb()
