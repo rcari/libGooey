@@ -97,3 +97,8 @@ Gooey--widgets--TabWidget QTextEdit { background: #313131; }
 
 Gooey--windows--MainMenu { margin: 0px; padding: 0px; background: #3c3b37; border-bottom: 1px solid #6f6f6f; }
 Gooey--windows--MainWindow { margin: 0px; padding: 0px; }
+
+QComboBox QAbstractItemView::item
+{
+	color: red;
+}

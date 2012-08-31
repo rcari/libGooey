@@ -37,6 +37,7 @@ using namespace Kore::data;
 #include <QtCore/QEvent>
 #include <QtGui/QMenu>
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QStyledItemDelegate>
 #include <QtGui/QToolButton>
 #include <QtGui/QVBoxLayout>
 
@@ -69,6 +70,7 @@ View::View(QWidget* viewWidget)
 	_toolBar = new ViewBar;
 
 	_toolBarComboBox = new QComboBox;
+	_toolBarComboBox->setItemDelegate(new QStyledItemDelegate);
 	_toolBarComboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
 	_toolBar->addWidget(_toolBarComboBox);
 
