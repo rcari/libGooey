@@ -5,6 +5,7 @@ SET (
 	${Gooey_SRCS}
 	
 	${CMAKE_CURRENT_LIST_DIR}/BlockPanel.cpp
+	${CMAKE_CURRENT_LIST_DIR}/ComboBox.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyCheckBox.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyDoubleSpinBox.cpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyLineEdit.cpp

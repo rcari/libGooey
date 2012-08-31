@@ -4,6 +4,18 @@
 
 QLabel { background: transparent; }
 
+QAbstractItemView
+{
+	border: 0px;
+	background: #313131;
+	alternate-background-color: #373737;
+	qproperty-alternatingRowColors: true;
+	selection-background-color: #6c6c6c;
+	selection-color: #afaf96;
+}
+QAbstractItemView::item { min-height: 16px; margin: 1px; }
+QAbstractItemView:active { selection-background-color: #a9d9fe; selection-color: black; }
+
 QMenu { border: 1px solid black; padding-left: 2px; }
 QMenu::separator { background: #6f6f6f; height: 1px; margin-left: 5px; margin-right: 5px; }
 QMenu::item { padding-left: 20px; padding-right: 20px; padding-top: 2px; padding-bottom: 2px; }
@@ -26,7 +38,7 @@ QScrollBar::sub-line:horizontal{ background-image: url(:/gooey/images/icons/glob
 
 QStatusBar { border-top: 1px solid #6f6f6f; }
 
-QTreeView
+/*QTreeView
 {
 	border: 0px;
 	background: #313131;
@@ -36,7 +48,7 @@ QTreeView
 	selection-color: #afaf96;
 }
 QTreeView::item { min-height: 16px; margin: 1px; }
-QTreeView:active { selection-background-color: #a9d9fe; selection-color: black; }
+QTreeView:active { selection-background-color: #a9d9fe; selection-color: black; }*/
 
 QSplitter::handle:vertical
 {
@@ -65,6 +77,8 @@ Gooey--layout--ViewBar > QToolButton { background: transparent; max-width: 16px;
 Gooey--layout--ViewBarSpacer { background: transparent; }
 
 Gooey--widgets--BoolPropertyWidget QCheckBox { background: transparent; }
+
+/*Gooey--widgets--ComboBox QAbstractItemView { selection-background-color: #a9d9fe; selection-color: black; }*/
 
 Gooey--widgets--FloatingPointPropertyWidget *:hover { background: #a9d9fe; color: black; }
 
@@ -97,8 +111,3 @@ Gooey--widgets--TabWidget QTextEdit { background: #313131; }
 
 Gooey--windows--MainMenu { margin: 0px; padding: 0px; background: #3c3b37; border-bottom: 1px solid #6f6f6f; }
 Gooey--windows--MainWindow { margin: 0px; padding: 0px; }
-
-QComboBox QAbstractItemView::item
-{
-	color: red;
-}

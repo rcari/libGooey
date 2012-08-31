@@ -5,6 +5,7 @@ SET (
 	${Gooey_MOC_HDRS}
 	
 	${CMAKE_CURRENT_LIST_DIR}/BlockPanel.hpp
+	${CMAKE_CURRENT_LIST_DIR}/ComboBox.hpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyCheckBox.hpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyDoubleSpinBox.hpp
 	${CMAKE_CURRENT_LIST_DIR}/GooeyLineEdit.hpp
