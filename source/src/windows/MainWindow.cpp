@@ -64,10 +64,14 @@ MainWindow::MainWindow()
 	setAttribute(Qt::WA_DeleteOnClose);
 
 	setWindowTitle(
-			QString("%1 (%2) - %3 bits")
-			.arg(QApplication::applicationName())
-			.arg(QApplication::applicationVersion())
+			QString("%1 (%2) - %3 bits %4")
+			.arg(QApplication::applicationName(), QApplication::applicationVersion())
 			.arg(8 * sizeof(size_t))
+#ifdef K_DEBUG
+			.arg("debug")
+#else
+			.arg("release")
+#endif
 		);
 
 	// Load RootArea from settings
