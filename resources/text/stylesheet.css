@@ -1,6 +1,6 @@
 /* --------- Gooey ---------- */
 
-* { background: #494949; color: #d3d3d3; font-size: 10px; }
+* { background: #494949; color: #d3d3d3; font-size: 10px; alternate-background-color: #a9d9fe; }
 
 QLabel { background: transparent; }
 
@@ -9,12 +9,13 @@ QAbstractItemView
 	border: 0px;
 	background: #313131;
 	alternate-background-color: #373737;
-	qproperty-alternatingRowColors: true;
 	selection-background-color: #6c6c6c;
 	selection-color: #afaf96;
 }
 QAbstractItemView::item { min-height: 16px; margin: 1px; }
 QAbstractItemView:active { selection-background-color: #a9d9fe; selection-color: black; }
+
+QTreeView { qproperty-alternatingRowColors: true; }
 
 QMenu { border: 1px solid black; padding-left: 2px; }
 QMenu::separator { background: #6f6f6f; height: 1px; margin-left: 5px; margin-right: 5px; }
