@@ -15,6 +15,25 @@ QAbstractItemView
 QAbstractItemView::item { min-height: 16px; margin: 1px; }
 QAbstractItemView:active { selection-background-color: #a9d9fe; selection-color: black; }
 
+QMainWindow::separator:horizontal
+{
+	background: qlineargradient(x1:0, y1:0, x2:0, y2:2, stop:0 #494949, stop:1 #6f6f6f);
+	height: 3px;
+}
+QMainWindow::separator:vertical
+{
+	background: qlineargradient(x1:0, y1:0, x2:2, y2:0, stop:0 #494949, stop:1 #6f6f6f);
+	width: 3px;
+}
+
+QDockWidget::title
+{
+	text-align: left; /* align the text to the left */
+	background: red;
+	color: black;
+	padding-left: 20px;
+}
+
 QTreeView { qproperty-alternatingRowColors: true; }
 
 QMenu { border: 1px solid black; padding-left: 2px; }

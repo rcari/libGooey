@@ -30,8 +30,6 @@
 
 #include <GooeyExport.hpp>
 
-#include <layout/Area.hpp>
-
 #include <QtGui/QMainWindow>
 #include <QtGui/QStatusBar>
 
@@ -47,8 +45,6 @@ public:
 	MainWindow();
 	virtual ~MainWindow();
 
-	void setRootArea(Gooey::layout::Area* area);
-
 	MainMenu* mainMenu();
 	QStatusBar* statusBar();
 
@@ -56,22 +52,15 @@ public slots:
 	void setFullscreen(bool full);
 
 protected:
-	virtual Gooey::layout::Area* createDefaultUI() const;
-
-protected:
 	virtual void closeEvent(QCloseEvent* event);
 
 private:
-	void loadRootArea();
-	void saveRootArea();
-
 	void loadWindowGeometry();
 	void saveWindowGeometry();
 
 private:
 	MainMenu*				_mainMenu;
 	QStatusBar*				_statusBar;
-	Gooey::layout::Area*	_rootArea;
 };
 
 }}

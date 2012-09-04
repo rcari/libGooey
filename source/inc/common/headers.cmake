@@ -22,7 +22,7 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/BlockDrag.hpp
 	${CMAKE_CURRENT_LIST_DIR}/FlowLayout.hpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryFilterProxyModel.hpp
-	${CMAKE_CURRENT_LIST_DIR}/LinkBlockToView.hpp
+	#${CMAKE_CURRENT_LIST_DIR}/LinkBlockToView.hpp
 )
 
 IF (APPLE)

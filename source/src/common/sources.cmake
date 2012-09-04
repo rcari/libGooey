@@ -15,7 +15,7 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/LibraryListModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryListTreeModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryTreeModel.cpp
-	${CMAKE_CURRENT_LIST_DIR}/LinkBlockToView.cpp
+	#${CMAKE_CURRENT_LIST_DIR}/LinkBlockToView.cpp
 	${CMAKE_CURRENT_LIST_DIR}/PropertyWidgetProxy.cpp
 )
 

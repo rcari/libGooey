@@ -29,7 +29,6 @@
 #include <windows/MainWindow.hpp>
 #include <windows/MainMenu.hpp>
 using namespace Gooey::windows;
-using namespace Gooey::layout;
 
 #include <GooeyEngine.hpp>
 using namespace Gooey;
@@ -52,7 +51,6 @@ using namespace Kore::data;
 #define GEOMETRY	"GEOMETRY"
 
 MainWindow::MainWindow()
-:	_rootArea(K_NULL)
 {
 	GooeyEngine::RegisterMainWindow(this);
 
@@ -74,40 +72,14 @@ MainWindow::MainWindow()
 #endif
 		);
 
-	// Load RootArea from settings
-	loadRootArea();
-
-	// Create default Root Area if it could not be loaded.
-	if(!_rootArea)
-	{
-		setRootArea(createDefaultUI());
-	}
-
 	_statusBar = new QStatusBar;
-
 	setStatusBar(_statusBar);
 }
 
 MainWindow::~MainWindow()
 {
-	// Save the current layout
-	saveRootArea();
 	// Save the geometry.
 	saveWindowGeometry();
-}
-
-void MainWindow::setRootArea(Area* area)
-{
-	if(_rootArea)
-	{
-		_rootArea->destroy();
-	}
-
-	_rootArea = area;
-
-	setCentralWidget(_rootArea->widget());
-
-	GooeyEngine::Instance()->addBlock(_rootArea);
 }
 
 MainMenu* MainWindow::mainMenu()
@@ -129,17 +101,8 @@ void MainWindow::setFullscreen(bool full)
 		);
 }
 
-Area* MainWindow::createDefaultUI() const
-{
-	Area* area = K_BLOCK_CREATE_INSTANCE(Area);
-	area->addBlock( LibraryBrowser::StaticMetaBlock()->createBlock() );
-	return area;
-}
-
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-	// Save the current layout
-	saveRootArea();
 	// Save the geometry.
 	saveWindowGeometry();
 
@@ -151,65 +114,6 @@ void MainWindow::closeEvent(QCloseEvent* event)
 	event->ignore();
 	// The user requested to quit !
 	GooeyEngine::RequestQuit();
-}
-
-void MainWindow::loadRootArea()
-{
-	QSettings settings;
-	settings.beginGroup("gooey");
-	settings.beginGroup("mainWindow");
-
-	if(!settings.contains(ROOT_AREA))
-	{
-		qDebug("%s / Can not load root area from settings.", staticMetaObject.className());
-		return;
-	}
-
-	QByteArray data = settings.value(ROOT_AREA).toByteArray();
-
-	if(data.isEmpty())
-	{
-		qWarning("%s / Failed to load stored root area from corrupted settings !", staticMetaObject.className());
-		return;
-	}
-
-	QBuffer buffer(&data);
-	buffer.open(QIODevice::ReadOnly);
-
-	Block* rootArea;
-
-	KoreV1 serializer;
-	serializer.inflate(&buffer, &rootArea, K_NULL);
-
-	if(!rootArea)
-	{
-		qWarning("%s / Failed to load stored root area from settings !", staticMetaObject.className());
-		return;
-	}
-
-	K_ASSERT( rootArea->fastInherits<Gooey::layout::Area>() ) // Must be a layout Area !
-
-	setRootArea( static_cast<Area*>(rootArea) );
-}
-
-void MainWindow::saveRootArea()
-{
-	if(!_rootArea)
-	{
-		qWarning("%s / Can not save NULL root area !", staticMetaObject.className());
-		return;
-	}
-
-	QBuffer buffer;
-	buffer.open(QIODevice::WriteOnly);
-
-	KoreV1 serializer;
-	serializer.deflate(&buffer, _rootArea, K_NULL);
-
-	QSettings settings;
-	settings.beginGroup("gooey");
-	settings.beginGroup("mainWindow");
-	settings.setValue(ROOT_AREA, buffer.data());
 }
 
 void MainWindow::loadWindowGeometry()

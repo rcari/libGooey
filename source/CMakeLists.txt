@@ -20,8 +20,8 @@ SET( Gooey_SRCS
 )
 INCLUDE( src/commands/sources.cmake )
 INCLUDE( src/common/sources.cmake )
-INCLUDE( src/layout/sources.cmake )
-INCLUDE( src/views/sources.cmake )
+#INCLUDE( src/layout/sources.cmake )
+#INCLUDE( src/views/sources.cmake )
 INCLUDE( src/widgets/sources.cmake )
 INCLUDE( src/windows/sources.cmake )
 
@@ -37,8 +37,8 @@ SET( Gooey_MOC_HDRS
 )
 INCLUDE( inc/commands/headers.cmake )
 INCLUDE( inc/common/headers.cmake )
-INCLUDE( inc/layout/headers.cmake )
-INCLUDE( inc/views/headers.cmake )
+#INCLUDE( inc/layout/headers.cmake )
+#INCLUDE( inc/views/headers.cmake )
 INCLUDE( inc/widgets/headers.cmake )
 INCLUDE( inc/windows/headers.cmake )
 
