@@ -372,7 +372,7 @@ void LibraryTreeModel::bindBlockEvents(Block* block)
 		static const int blockChangedIndex = staticMetaObject.indexOfSlot(QMetaObject::normalizedSignature("blockChanged()"));
 		connect(block, userProperty.notifySignal(), this, staticMetaObject.method(blockChangedIndex));
 	}
-	else
+	else if(userProperty.isWritable())
 	{
 		qWarning(
 				"%s - Block %s has no default user property with NOTIFY signal!",

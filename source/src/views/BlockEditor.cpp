@@ -70,9 +70,15 @@ public:
 	{
 		// This will only filter leave nodes!
 		QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
-		return	sourceModel()->hasChildren(sourceIndex)
-				?	true
-				:	QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+		if(sourceModel()->hasChildren(sourceIndex))
+		{
+			// Check child nodes...
+			return true;
+		}
+		else
+		{
+			return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+		}
 	}
 };
 
