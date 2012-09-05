@@ -26,44 +26,17 @@
  *
  */
 
-#pragma once
+#include <windows/SideBar.hpp>
+#include <windows/MainWindow.hpp>
+using namespace Gooey::windows;
 
-#include <GooeyExport.hpp>
+#include <GooeyEngine.hpp>
 
-#include <QtGui/QMenuBar>
-
-namespace Gooey { namespace windows {
-
-class MainWindow;
-
-class GooeyExport MainMenu : public QMenuBar
+SideBar::SideBar(MainWindow* window)
+:	QToolBar(window),
+    _window(window)
 {
-	Q_OBJECT
-
-public:
-	MainMenu(MainWindow*);
-
-	QMenu* fileMenu();
-	QAction* quitAction();
-
-	QMenu* windowMenu();
-	QAction* fullScreenAction();
-
-	QMenu* aboutMenu();
-	QAction* aboutQtAction();
-
-private slots:
-	void aboutQt();
-	void settings();
-
-private:
-	MainWindow*		_mainWindow;
-	QMenu*			_fileMenu;
-	QAction*		_quitAction;
-	QMenu*			_windowMenu;
-	QAction*		_fullScreenAction;
-	QMenu*			_aboutMenu;
-	QAction*		_aboutQtAction;
-};
-
-}}
+    K_ASSERT( _window->sideBar() == K_NULL )
+    setFloatable(false);
+    setMovable(false);
+}

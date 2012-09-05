@@ -16,7 +16,7 @@
  *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  *	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  *	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *	DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ *	DISCLAIMED. IN NO EVENT SHALL Romuald CARI BE LIABLE FOR ANY
  *	DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  *	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -28,6 +28,7 @@
 
 #include <windows/MainWindow.hpp>
 #include <windows/MainMenu.hpp>
+#include <windows/SideBar.hpp>
 using namespace Gooey::windows;
 
 #include <GooeyEngine.hpp>
@@ -41,6 +42,7 @@ using namespace Gooey::views;
 
 #include <QtGui/QApplication>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QStatusBar>
 
 #include <serialization/KoreV1.hpp>
 using namespace Kore::serialization;
@@ -51,91 +53,103 @@ using namespace Kore::data;
 #define GEOMETRY	"GEOMETRY"
 
 MainWindow::MainWindow()
+:	_mainMenu(K_NULL),
+    _sideBar(K_NULL),
+    _statusBar(K_NULL)
 {
-	GooeyEngine::RegisterMainWindow(this);
+    setAttribute(Qt::WA_DeleteOnClose);
 
-	loadWindowGeometry();
+    /* TODO: Remove that... */
+    GooeyEngine::RegisterMainWindow(this);
 
-	_mainMenu = new MainMenu(this);
-	setMenuBar(_mainMenu);
+    loadWindowGeometry();
 
-	setAttribute(Qt::WA_DeleteOnClose);
+    _mainMenu = new MainMenu(this);
+    setMenuBar(_mainMenu);
 
-	setWindowTitle(
-			QString("%1 (%2) - %3 bits %4")
-			.arg(QApplication::applicationName(), QApplication::applicationVersion())
-			.arg(8 * sizeof(size_t))
+    _sideBar = new SideBar(this);
+    addToolBar(Qt::LeftToolBarArea, _sideBar);
+
+    setWindowTitle(
+            QString("%1 (%2) - %3 bits %4")
+            .arg(QApplication::applicationName(), QApplication::applicationVersion())
+            .arg(8 * sizeof(size_t))
 #ifdef K_DEBUG
-			.arg("debug")
+            .arg("debug")
 #else
-			.arg("release")
+            .arg("release")
 #endif
-		);
+        );
 
-	_statusBar = new QStatusBar;
-	setStatusBar(_statusBar);
+    _statusBar = new QStatusBar;
+    setStatusBar(_statusBar);
 }
 
 MainWindow::~MainWindow()
 {
-	// Save the geometry.
-	saveWindowGeometry();
+    // Save the geometry.
+    saveWindowGeometry();
 }
 
 MainMenu* MainWindow::mainMenu()
 {
-	return _mainMenu;
+    return _mainMenu;
+}
+
+SideBar* MainWindow::sideBar()
+{
+	return _sideBar;
 }
 
 QStatusBar* MainWindow::statusBar()
 {
-	return _statusBar;
+    return _statusBar;
 }
 
 void MainWindow::setFullscreen(bool full)
 {
-	setWindowState(
-			full
-			? Qt::WindowFullScreen
-			: Qt::WindowNoState
-		);
+    setWindowState(
+            full
+            ? Qt::WindowFullScreen
+            : Qt::WindowNoState
+        );
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-	// Save the geometry.
-	saveWindowGeometry();
+    // Save the geometry.
+    saveWindowGeometry();
 
-	if(GooeyEngine::IsQuitting())
-	{
-		QMainWindow::closeEvent(event);
-		return;
-	}
-	event->ignore();
-	// The user requested to quit !
-	GooeyEngine::RequestQuit();
+    if(GooeyEngine::IsQuitting())
+    {
+        QMainWindow::closeEvent(event);
+        return;
+    }
+    event->ignore();
+    // The user requested to quit !
+    GooeyEngine::RequestQuit();
 }
 
 void MainWindow::loadWindowGeometry()
 {
-	QSettings settings;
-	settings.beginGroup("gooey");
-	settings.beginGroup("mainWindow");
+    QSettings settings;
+    settings.beginGroup("gooey");
+    settings.beginGroup("mainWindow");
 
-	if(settings.contains(GEOMETRY))
-	{
-		restoreGeometry(settings.value(GEOMETRY).toByteArray());
-	}
-	else
-	{
-		resize(800,600); // Default is to set the size of the window!
-	}
+    if(settings.contains(GEOMETRY))
+    {
+        restoreGeometry(settings.value(GEOMETRY).toByteArray());
+    }
+    else
+    {
+        resize(800,600); // Default is to set the size of the window!
+    }
 }
 
 void MainWindow::saveWindowGeometry()
 {
-	QSettings settings;
-	settings.beginGroup("gooey");
-	settings.beginGroup("mainWindow");
-	settings.setValue(GEOMETRY, saveGeometry());
+    QSettings settings;
+    settings.beginGroup("gooey");
+    settings.beginGroup("mainWindow");
+    settings.setValue(GEOMETRY, saveGeometry());
 }

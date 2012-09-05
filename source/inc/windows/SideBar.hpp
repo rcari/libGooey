@@ -30,40 +30,23 @@
 
 #include <GooeyExport.hpp>
 
-#include <QtGui/QMenuBar>
+#include <QtGui/QToolBar>
 
 namespace Gooey { namespace windows {
 
 class MainWindow;
 
-class GooeyExport MainMenu : public QMenuBar
+class GooeyExport SideBar : public QToolBar
 {
-	Q_OBJECT
+    Q_OBJECT
 
-public:
-	MainMenu(MainWindow*);
-
-	QMenu* fileMenu();
-	QAction* quitAction();
-
-	QMenu* windowMenu();
-	QAction* fullScreenAction();
-
-	QMenu* aboutMenu();
-	QAction* aboutQtAction();
-
-private slots:
-	void aboutQt();
-	void settings();
+    friend class MainWindow;
 
 private:
-	MainWindow*		_mainWindow;
-	QMenu*			_fileMenu;
-	QAction*		_quitAction;
-	QMenu*			_windowMenu;
-	QAction*		_fullScreenAction;
-	QMenu*			_aboutMenu;
-	QAction*		_aboutQtAction;
+    SideBar(MainWindow* window);
+
+private:
+    MainWindow* _window;
 };
 
 }}

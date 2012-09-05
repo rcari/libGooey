@@ -16,7 +16,7 @@
  *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  *	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  *	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *	DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ *	DISCLAIMED. IN NO EVENT SHALL Romuald CARI BE LIABLE FOR ANY
  *	DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  *	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -31,11 +31,12 @@
 #include <GooeyExport.hpp>
 
 #include <QtGui/QMainWindow>
-#include <QtGui/QStatusBar>
+#include <QtGui/QToolBar>
 
 namespace Gooey { namespace windows {
 
 class MainMenu;
+class SideBar;
 
 class GooeyExport MainWindow : public QMainWindow
 {
@@ -46,6 +47,7 @@ public:
 	virtual ~MainWindow();
 
 	MainMenu* mainMenu();
+	SideBar* sideBar();
 	QStatusBar* statusBar();
 
 public slots:
@@ -59,8 +61,9 @@ private:
 	void saveWindowGeometry();
 
 private:
-	MainMenu*				_mainMenu;
-	QStatusBar*				_statusBar;
+	MainMenu*	_mainMenu;
+	SideBar*	_sideBar;
+	QStatusBar*	_statusBar;
 };
 
 }}
