@@ -7,5 +7,6 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/MainMenu.cpp
 	${CMAKE_CURRENT_LIST_DIR}/MainWindow.cpp
 	${CMAKE_CURRENT_LIST_DIR}/SettingsDialog.cpp
+	${CMAKE_CURRENT_LIST_DIR}/SideBar.cpp
 	${CMAKE_CURRENT_LIST_DIR}/TaskletProgressDialog.cpp
 )

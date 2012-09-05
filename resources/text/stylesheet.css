@@ -131,3 +131,9 @@ Gooey--widgets--TabWidget QTextEdit { background: #313131; }
 
 Gooey--windows--MainMenu { margin: 0px; padding: 0px; background: #3c3b37; border-bottom: 1px solid #6f6f6f; }
 Gooey--windows--MainWindow { margin: 0px; padding: 0px; }
+
+Gooey--windows--SideBar {
+	min-width: 64px;
+	/*background: qlineargradient(x1:0, y1:0, x2:0.2, y2:0, stop:0 #404040, stop:1 #828282);*/
+	border-right: 1px solid #aaaaaa;
+}
