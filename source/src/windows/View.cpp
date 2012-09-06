@@ -26,59 +26,44 @@
  *
  */
 
-#pragma once
+#include <QtGui/QMenu>
+#include <QtGui/QPushButton>
+#include <QtGui/QHBoxLayout>
 
-#include <GooeyEngine.hpp>
-#include <GooeyExport.hpp>
+#include <windows/View.hpp>
+using namespace Gooey::windows;
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtGui/QIcon>
-
-namespace Gooey { namespace windows {
-
-class MainWindow;
-class View;
-
-class GooeyExport Perspective : public QObject
+ViewBar::ViewBar(View* v)
+:	QFrame(v)
 {
-	Q_OBJECT
+	QHBoxLayout* hLayout = new QHBoxLayout(this);
+	QPushButton* button = new QPushButton(tr("Switch"));
+	connect(button, SIGNAL(clicked()), SLOT(switchView()));
+	hLayout->addWidget(button);
+	hLayout->addStretch();
+	hLayout->setContentsMargins(0,0,0,0);
+	hLayout->setSpacing(0);
+	button = new QPushButton("X");
+	connect(button, SIGNAL(clicked()), parent(), SLOT(close()));
+	hLayout->addWidget(button);
+}
 
-public:
-	typedef struct
-	{
-		int			id;
-		QString		name;
-		QIcon		icon;
-	} ViewDesc;
+void ViewBar::switchView()
+{
+	QWidget* bar = static_cast<QWidget*>(sender());
+	QMenu menu;
+	menu.addAction(tr("Arf"));
+	menu.addAction(tr("Erf"));
+	menu.addAction(tr("Lol"));
+	menu.addAction(tr("Loul"));
+	menu.setMinimumWidth(bar->width());
+	menu.exec(bar->mapToGlobal(QPoint(0,0)));
+}
 
-public:
-	/*!
-	 * \brief reset
-	 * \param window the mainwindow to apply a default perspective on
-	 * This will be called to reset the Perspective to its initial state.
-	 */
-	virtual void reset(MainWindow* window) = K_NULL;
+View::View(const QString& name)
+:	QDockWidget(name)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
+	setTitleBarWidget(new ViewBar(this));
 
-	/*!
-	 * \brief restore
-	 * \param window
-	 */
-	virtual void restore(MainWindow* window) = K_NULL;
-	/*!
-	 * \brief save
-	 * \param window
-	 */
-	virtual void save(MainWindow* window) = K_NULL;
-
-public:
-	virtual QString name() const = K_NULL;
-	virtual QIcon icon() const = K_NULL;
-
-	virtual View* createView(int id) = K_NULL;
-	virtual QList<ViewDesc> availableViews() = K_NULL;
-
-private:
-};
-
-}}
+}

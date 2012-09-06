@@ -26,59 +26,9 @@
  *
  */
 
-#pragma once
+#include <windows/Perspective.hpp>
+#include <windows/MainWindow.hpp>
+using namespace Gooey::windows;
 
 #include <GooeyEngine.hpp>
-#include <GooeyExport.hpp>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtGui/QIcon>
-
-namespace Gooey { namespace windows {
-
-class MainWindow;
-class View;
-
-class GooeyExport Perspective : public QObject
-{
-	Q_OBJECT
-
-public:
-	typedef struct
-	{
-		int			id;
-		QString		name;
-		QIcon		icon;
-	} ViewDesc;
-
-public:
-	/*!
-	 * \brief reset
-	 * \param window the mainwindow to apply a default perspective on
-	 * This will be called to reset the Perspective to its initial state.
-	 */
-	virtual void reset(MainWindow* window) = K_NULL;
-
-	/*!
-	 * \brief restore
-	 * \param window
-	 */
-	virtual void restore(MainWindow* window) = K_NULL;
-	/*!
-	 * \brief save
-	 * \param window
-	 */
-	virtual void save(MainWindow* window) = K_NULL;
-
-public:
-	virtual QString name() const = K_NULL;
-	virtual QIcon icon() const = K_NULL;
-
-	virtual View* createView(int id) = K_NULL;
-	virtual QList<ViewDesc> availableViews() = K_NULL;
-
-private:
-};
-
-}}

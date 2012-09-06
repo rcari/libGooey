@@ -31,54 +31,36 @@
 #include <GooeyEngine.hpp>
 #include <GooeyExport.hpp>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtGui/QIcon>
+#include <QtGui/QDockWidget>
 
 namespace Gooey { namespace windows {
 
 class MainWindow;
+
 class View;
 
-class GooeyExport Perspective : public QObject
+class GooeyExport ViewBar : public QFrame
+{
+	Q_OBJECT
+
+	friend class Gooey::windows::View;
+
+private:
+	ViewBar(View* v);
+
+private slots:
+	void switchView();
+};
+
+class GooeyExport View : public QDockWidget
 {
 	Q_OBJECT
 
 public:
-	typedef struct
-	{
-		int			id;
-		QString		name;
-		QIcon		icon;
-	} ViewDesc;
+	View(const QString& name);
 
-public:
-	/*!
-	 * \brief reset
-	 * \param window the mainwindow to apply a default perspective on
-	 * This will be called to reset the Perspective to its initial state.
-	 */
-	virtual void reset(MainWindow* window) = K_NULL;
-
-	/*!
-	 * \brief restore
-	 * \param window
-	 */
-	virtual void restore(MainWindow* window) = K_NULL;
-	/*!
-	 * \brief save
-	 * \param window
-	 */
-	virtual void save(MainWindow* window) = K_NULL;
-
-public:
-	virtual QString name() const = K_NULL;
-	virtual QIcon icon() const = K_NULL;
-
-	virtual View* createView(int id) = K_NULL;
-	virtual QList<ViewDesc> availableViews() = K_NULL;
-
-private:
+protected:
+	ViewBar* viewBar();
 };
 
 }}
