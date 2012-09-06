@@ -31,10 +31,16 @@
 #include <GooeyExport.hpp>
 
 #include <QtGui/QToolBar>
+#include <QtGui/QToolButton>
 
 namespace Gooey { namespace windows {
 
 class MainWindow;
+
+class GooeyExport SideBarButton : public QToolButton
+{
+
+};
 
 class GooeyExport SideBar : public QToolBar
 {
