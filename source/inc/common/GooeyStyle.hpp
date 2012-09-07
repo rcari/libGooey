@@ -30,15 +30,15 @@
 
 #include <GooeyExport.hpp>
 
-#include <QtGui/QPlastiqueStyle>
+#include <QtGui>
 
 namespace Gooey { namespace common {
 
-class GooeyExport GooeyStyle : public QPlastiqueStyle
+class GooeyExport GooeyStyle : public QWindowsVistaStyle
 {
 
 virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-        QPainter *painter, const QWidget *widget) const;
+		QPainter *painter, const QWidget *widget) const;
 
 };
 

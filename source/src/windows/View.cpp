@@ -37,13 +37,14 @@ ViewBar::ViewBar(View* v)
 :	QFrame(v)
 {
 	QHBoxLayout* hLayout = new QHBoxLayout(this);
-	QPushButton* button = new QPushButton(tr("Switch"));
+	QAbstractButton* button = new QPushButton(tr("Switch View"));
 	connect(button, SIGNAL(clicked()), SLOT(switchView()));
 	hLayout->addWidget(button);
 	hLayout->addStretch();
 	hLayout->setContentsMargins(0,0,0,0);
 	hLayout->setSpacing(0);
-	button = new QPushButton("X");
+	button = new QPushButton;
+	button->setObjectName("closeButton");
 	connect(button, SIGNAL(clicked()), parent(), SLOT(close()));
 	hLayout->addWidget(button);
 }

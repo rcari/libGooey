@@ -48,7 +48,6 @@ public:
 
 	MainMenu* mainMenu();
 	SideBar* sideBar();
-	QStatusBar* statusBar();
 
 public slots:
 	void setFullscreen(bool full);
@@ -63,7 +62,6 @@ private:
 private:
 	MainMenu*	_mainMenu;
 	SideBar*	_sideBar;
-	QStatusBar*	_statusBar;
 };
 
 }}

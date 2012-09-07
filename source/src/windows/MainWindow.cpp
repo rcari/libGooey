@@ -54,47 +54,44 @@ using namespace Kore::data;
 
 MainWindow::MainWindow()
 :	_mainMenu(K_NULL),
-    _sideBar(K_NULL),
-    _statusBar(K_NULL)
+	_sideBar(K_NULL)
 {
-    setAttribute(Qt::WA_DeleteOnClose);
+	setAttribute(Qt::WA_DeleteOnClose);
+	layout()->setContentsMargins(0,0,0,0);
 
-    /* TODO: Remove that... */
-    GooeyEngine::RegisterMainWindow(this);
+	/* TODO: Remove that... */
+	GooeyEngine::RegisterMainWindow(this);
 
-    loadWindowGeometry();
+	loadWindowGeometry();
 
-    _mainMenu = new MainMenu(this);
-    setMenuBar(_mainMenu);
+	_mainMenu = new MainMenu(this);
+	setMenuBar(_mainMenu);
 
-    _sideBar = new SideBar(this);
+	_sideBar = new SideBar(this);
 	addToolBar(Qt::LeftToolBarArea, _sideBar);
 	addToolBarBreak(Qt::LeftToolBarArea);
 
-    setWindowTitle(
-            QString("%1 (%2) - %3 bits %4")
-            .arg(QApplication::applicationName(), QApplication::applicationVersion())
-            .arg(8 * sizeof(size_t))
+	setWindowTitle(
+			QString("%1 (%2) - %3 bits %4")
+			.arg(QApplication::applicationName(), QApplication::applicationVersion())
+			.arg(8 * sizeof(size_t))
 #ifdef K_DEBUG
-            .arg("debug")
+			.arg("debug")
 #else
-            .arg("release")
+			.arg("release")
 #endif
-        );
-
-    _statusBar = new QStatusBar;
-    setStatusBar(_statusBar);
+		);
 }
 
 MainWindow::~MainWindow()
 {
-    // Save the geometry.
-    saveWindowGeometry();
+	// Save the geometry.
+	saveWindowGeometry();
 }
 
 MainMenu* MainWindow::mainMenu()
 {
-    return _mainMenu;
+	return _mainMenu;
 }
 
 SideBar* MainWindow::sideBar()
@@ -102,55 +99,50 @@ SideBar* MainWindow::sideBar()
 	return _sideBar;
 }
 
-QStatusBar* MainWindow::statusBar()
-{
-    return _statusBar;
-}
-
 void MainWindow::setFullscreen(bool full)
 {
-    setWindowState(
-            full
-            ? Qt::WindowFullScreen
-            : Qt::WindowNoState
-        );
+	setWindowState(
+			full
+			? Qt::WindowFullScreen
+			: Qt::WindowNoState
+		);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    // Save the geometry.
-    saveWindowGeometry();
+	// Save the geometry.
+	saveWindowGeometry();
 
-    if(GooeyEngine::IsQuitting())
-    {
-        QMainWindow::closeEvent(event);
-        return;
-    }
-    event->ignore();
-    // The user requested to quit !
-    GooeyEngine::RequestQuit();
+	if(GooeyEngine::IsQuitting())
+	{
+		QMainWindow::closeEvent(event);
+		return;
+	}
+	event->ignore();
+	// The user requested to quit !
+	GooeyEngine::RequestQuit();
 }
 
 void MainWindow::loadWindowGeometry()
 {
-    QSettings settings;
-    settings.beginGroup("gooey");
-    settings.beginGroup("mainWindow");
+	QSettings settings;
+	settings.beginGroup("gooey");
+	settings.beginGroup("mainWindow");
 
-    if(settings.contains(GEOMETRY))
-    {
-        restoreGeometry(settings.value(GEOMETRY).toByteArray());
-    }
-    else
-    {
-        resize(800,600); // Default is to set the size of the window!
-    }
+	if(settings.contains(GEOMETRY))
+	{
+		restoreGeometry(settings.value(GEOMETRY).toByteArray());
+	}
+	else
+	{
+		resize(800,600); // Default is to set the size of the window!
+	}
 }
 
 void MainWindow::saveWindowGeometry()
 {
-    QSettings settings;
-    settings.beginGroup("gooey");
-    settings.beginGroup("mainWindow");
-    settings.setValue(GEOMETRY, saveGeometry());
+	QSettings settings;
+	settings.beginGroup("gooey");
+	settings.beginGroup("mainWindow");
+	settings.setValue(GEOMETRY, saveGeometry());
 }
