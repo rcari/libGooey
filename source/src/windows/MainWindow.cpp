@@ -68,7 +68,8 @@ MainWindow::MainWindow()
     setMenuBar(_mainMenu);
 
     _sideBar = new SideBar(this);
-    addToolBar(Qt::LeftToolBarArea, _sideBar);
+	addToolBar(Qt::LeftToolBarArea, _sideBar);
+	addToolBarBreak(Qt::LeftToolBarArea);
 
     setWindowTitle(
             QString("%1 (%2) - %3 bits %4")
