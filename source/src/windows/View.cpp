@@ -26,45 +26,19 @@
  *
  */
 
-#include <QtGui/QMenu>
-#include <QtGui/QPushButton>
+#include <QtGui/QAction>
+#include <QtGui/QComboBox>
 #include <QtGui/QHBoxLayout>
+#include <QtGui/QMainWindow>
+#include <QtGui/QMenu>
 
 #include <windows/View.hpp>
 using namespace Gooey::windows;
-
-ViewBar::ViewBar(View* v)
-:	QFrame(v)
-{
-	QHBoxLayout* hLayout = new QHBoxLayout(this);
-	QAbstractButton* button = new QPushButton(tr("Switch View"));
-	connect(button, SIGNAL(clicked()), SLOT(switchView()));
-	hLayout->addWidget(button);
-	hLayout->addStretch();
-	hLayout->setContentsMargins(0,0,0,0);
-	hLayout->setSpacing(0);
-	button = new QPushButton;
-	button->setObjectName("closeButton");
-	connect(button, SIGNAL(clicked()), parent(), SLOT(close()));
-	hLayout->addWidget(button);
-}
-
-void ViewBar::switchView()
-{
-	QWidget* bar = static_cast<QWidget*>(sender());
-	QMenu menu;
-	menu.addAction(tr("Arf"));
-	menu.addAction(tr("Erf"));
-	menu.addAction(tr("Lol"));
-	menu.addAction(tr("Loul"));
-	menu.setMinimumWidth(bar->width());
-	menu.exec(bar->mapToGlobal(QPoint(0,0)));
-}
 
 View::View(const QString& name)
 :	QDockWidget(name)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
-	setTitleBarWidget(new ViewBar(this));
-
+	layout()->setContentsMargins(0,0,0,0);
+	layout()->setSpacing(0);
 }

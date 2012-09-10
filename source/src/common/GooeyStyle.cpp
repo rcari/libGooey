@@ -31,6 +31,7 @@ using namespace Gooey::common;
 
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOption>
+#include <QtGui/QStyleOptionButton>
 
 static QColor mergedColors(const QColor &colorA, const QColor &colorB, int factor = 50)
 {
@@ -45,56 +46,73 @@ static QColor mergedColors(const QColor &colorA, const QColor &colorB, int facto
 void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
 									QPainter *painter, const QWidget *widget) const
 {
-	switch (element) {
+	switch (element)
+	{
+	/*case PE_PanelButtonCommand:
+		if(const QStyleOptionButton* button = qstyleoption_cast<const QStyleOptionButton *>(option))
+		{
+			QStyleOptionButton buttonStyle(*button);
+			if(buttonStyle.state & State_MouseOver)
+			{
+				buttonStyle.state ^= State_MouseOver;
+				buttonStyle.palette.setColor(QPalette::ButtonText, Qt::red);
+			}
+			QPlastiqueStyle::drawPrimitive(element, &buttonStyle, painter, widget);
+		}
+		else
+		{
+			QPlastiqueStyle::drawPrimitive(element, option, painter, widget);
+		}
+		return;*/
 	case PE_FrameFocusRect:
 		return;
 	case PE_IndicatorBranch:
-	{
-		int mid_h = option->rect.x() + option->rect.width() / 2;
-		int mid_v = option->rect.y() + option->rect.height() / 2;
-		int bef_h = mid_h;
-		int bef_v = mid_v;
-		int aft_h = mid_h;
-		int aft_v = mid_v;
-		static const int decoration_size = 9;
-
-		QColor borderColor = option->palette.background().color().lighter(178);
-		QColor crossColor = mergedColors(option->palette.background().color(), option->palette.text().color());
-
-		painter->setPen(borderColor);
-
-		if (option->state & State_Children)
 		{
-			int delta = decoration_size / 2;
-			bef_h -= delta; bef_v -= delta; aft_h += delta; aft_v += delta;
-			painter->drawRect(bef_h, bef_v, aft_h - bef_h, aft_v - bef_v);
+			int mid_h = option->rect.x() + option->rect.width() / 2;
+			int mid_v = option->rect.y() + option->rect.height() / 2;
+			int bef_h = mid_h;
+			int bef_v = mid_v;
+			int aft_h = mid_h;
+			int aft_v = mid_v;
+			static const int decoration_size = 9;
 
-			painter->setPen(crossColor);
+			QColor borderColor = option->palette.background().color().lighter(178);
+			QColor crossColor = mergedColors(option->palette.background().color(), option->palette.text().color());
 
-			// Draw + or -
-			painter->drawLine(bef_h + 2, mid_v, aft_h - 2, mid_v);
-			if(!(option->state & State_Open))
-				painter->drawLine(mid_h, bef_v + 2, mid_h, aft_v - 2);
+			painter->setPen(borderColor);
+
+			if (option->state & State_Children)
+			{
+				int delta = decoration_size / 2;
+				bef_h -= delta; bef_v -= delta; aft_h += delta; aft_v += delta;
+				painter->drawRect(bef_h, bef_v, aft_h - bef_h, aft_v - bef_v);
+
+				painter->setPen(crossColor);
+
+				// Draw + or -
+				painter->drawLine(bef_h + 2, mid_v, aft_h - 2, mid_v);
+				if(!(option->state & State_Open))
+					painter->drawLine(mid_h, bef_v + 2, mid_h, aft_v - 2);
+			}
+
+			painter->setPen(borderColor);
+
+			if (option->state & State_Item)
+			{
+				if (option->direction == Qt::RightToLeft)
+					painter->drawLine(option->rect.left(), mid_v, bef_h, mid_v);
+				else
+					painter->drawLine(aft_h, mid_v, option->rect.right(), mid_v);
+			}
+
+			if (option->state & State_Sibling)
+				painter->drawLine(mid_h, aft_v, mid_h, option->rect.bottom());
+			if (option->state & (State_Open | State_Children | State_Item | State_Sibling))
+				painter->drawLine(mid_h, option->rect.y(), mid_h, bef_v);
+			break;
 		}
-
-		painter->setPen(borderColor);
-
-		if (option->state & State_Item)
-		{
-			if (option->direction == Qt::RightToLeft)
-				painter->drawLine(option->rect.left(), mid_v, bef_h, mid_v);
-			else
-				painter->drawLine(aft_h, mid_v, option->rect.right(), mid_v);
-		}
-
-		if (option->state & State_Sibling)
-			painter->drawLine(mid_h, aft_v, mid_h, option->rect.bottom());
-		if (option->state & (State_Open | State_Children | State_Item | State_Sibling))
-			painter->drawLine(mid_h, option->rect.y(), mid_h, bef_v);
-		break;
-	}
 	default:
-		QWindowsVistaStyle::drawPrimitive(element, option, painter, widget);
+		QPlastiqueStyle::drawPrimitive(element, option, painter, widget);
 		break;
 	}
 }

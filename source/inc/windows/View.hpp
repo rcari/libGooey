@@ -32,35 +32,17 @@
 #include <GooeyExport.hpp>
 
 #include <QtGui/QDockWidget>
+#include <QtGui/QPushButton>
 
 namespace Gooey { namespace windows {
-
-class MainWindow;
-
-class View;
-
-class GooeyExport ViewBar : public QFrame
-{
-	Q_OBJECT
-
-	friend class Gooey::windows::View;
-
-private:
-	ViewBar(View* v);
-
-private slots:
-	void switchView();
-};
 
 class GooeyExport View : public QDockWidget
 {
 	Q_OBJECT
 
 public:
-	View(const QString& name);
+	Q_INVOKABLE View(const QString& name = QString());
 
-protected:
-	ViewBar* viewBar();
 };
 
 }}

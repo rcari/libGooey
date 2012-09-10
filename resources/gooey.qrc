@@ -25,8 +25,8 @@
 	<file>images/icons/textEditor.png</file>
 	<file>images/icons/view.png</file>
 	<file>images/icons/view.close.png</file>
-	<file>images/icons/view.split.vertical.png</file>
 	<file>images/icons/view.split.horizontal.png</file>
+	<file>images/icons/view.split.vertical.png</file>
 	<file>text/stylesheet.css</file>
 </qresource>
 </RCC>

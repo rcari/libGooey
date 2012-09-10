@@ -7,18 +7,18 @@ QScrollBar::handle:vertical { min-height: 32px; }
 QScrollBar::handle:horizontal { min-width: 32px; }
 
 QScrollBar:vertical { padding-top: 16px; padding-bottom: 16px; }
-QScrollBar::add-line:vertical { background-image: url(:/gooey/images/icons/global.arrow.down.png); }
-QScrollBar::sub-line:vertical { background-image: url(:/gooey/images/icons/global.arrow.up.png); }
+QScrollBar::add-line:vertical { background-image: url(:/gooey/images/icons/global.arrow.down.png); background-clip: padding; }
+QScrollBar::sub-line:vertical { background-image: url(:/gooey/images/icons/global.arrow.up.png); background-clip: padding; }
 
 QScrollBar:horizontal { padding-left: 16px; padding-right: 16px; }
-QScrollBar::add-line:horizontal{ background-image: url(:/gooey/images/icons/global.arrow.right.png); }
-QScrollBar::sub-line:horizontal{ background-image: url(:/gooey/images/icons/global.arrow.left.png); }
+QScrollBar::add-line:horizontal{ background-image: url(:/gooey/images/icons/global.arrow.right.png); background-clip: padding; }
+QScrollBar::sub-line:horizontal{ background-image: url(:/gooey/images/icons/global.arrow.left.png); background-clip: padding; }
 
 QLabel { background: transparent; }
 
 QAbstractItemView
 {
-	border: 0px;
+	/*border: 0px;*/
 	background: #313131;
 	alternate-background-color: #373737;
 	selection-background-color: #6c6c6c;
@@ -42,19 +42,10 @@ Gooey--windows--SideBar {
 }
 
 QDockWidget {
-	border: 1px solid yellow;
+	border: 1px solid #ffffff;
 	padding: 0px;
 	margin: 0px;
 	min-width: 200px;
 }
 
-Gooey--windows--ViewBar {
-	background: #313131;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
-}
-
-Gooey--windows--ViewBar > * { background: transparent; max-height: 16px; }
-Gooey--windows--ViewBar > QPushButton:hover { background: #373737; }
-Gooey--windows--ViewBar > QPushButton#closeButton { qproperty-icon: url(:/gooey/images/icons/view.close.png); max-width: 16px; }
+QDockWidget::close-button { background-image: url(:/gooey/images/icons/view.close.png); }
