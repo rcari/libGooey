@@ -31,18 +31,48 @@
 #include <GooeyEngine.hpp>
 #include <GooeyExport.hpp>
 
+#include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QPushButton>
 
 namespace Gooey { namespace windows {
+
+class Perspective;
 
 class GooeyExport View : public QDockWidget
 {
 	Q_OBJECT
 
 public:
-	Q_INVOKABLE View(const QString& name = QString());
+	View();
+	virtual ~View();
 
+	virtual void loadProperties(const QByteArray&);
+	virtual QByteArray saveProperties();
+
+	virtual Qt::DockWidgetArea preferredArea() const;
+
+protected:
+	Perspective* perspective();
+
+signals:
+	void split(View* view, Qt::Orientation direction);
+	void replace(View* view, const QMetaObject* mo);
+
+private:
+	void setPerspective(Perspective*);
+
+private slots:
+	void toggleFloat();
+	void comboIndexChanged(int newIndex);
+	void featuresHaveChanged(QDockWidget::DockWidgetFeatures features);
+
+private:
+	Perspective* _perspective;
+	QComboBox* _viewCombo;
+	QPushButton* _splitButton;
+	QPushButton* _floatButton;
+	QPushButton* _closeButton;
 };
 
 }}

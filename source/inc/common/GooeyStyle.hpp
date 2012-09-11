@@ -36,10 +36,14 @@ namespace Gooey { namespace common {
 
 class GooeyExport GooeyStyle : public QPlastiqueStyle
 {
+	Q_OBJECT
 
-virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+public:
+	virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
 		QPainter *painter, const QWidget *widget) const;
 
+protected slots:
+	QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *opt, const QWidget *widget) const;
 };
 
 }}

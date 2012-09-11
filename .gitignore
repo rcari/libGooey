@@ -15,3 +15,6 @@
 .svn
 .project
 .cproject
+
+# Mac OS
+.DS_Store

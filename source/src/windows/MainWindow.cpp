@@ -28,7 +28,9 @@
 
 #include <windows/MainWindow.hpp>
 #include <windows/MainMenu.hpp>
+#include <windows/Perspective.hpp>
 #include <windows/SideBar.hpp>
+#include <windows/View.hpp>
 using namespace Gooey::windows;
 
 #include <GooeyEngine.hpp>
@@ -87,6 +89,17 @@ MainWindow::~MainWindow()
 {
 	// Save the geometry.
 	saveWindowGeometry();
+}
+
+void MainWindow::addPerspective(Perspective* p)
+{
+	sideBar()->addAction(p->action());
+	p->setMainWindow(this);
+}
+
+void MainWindow::addView(View* v)
+{
+	addDockWidget(v->preferredArea(), v);
 }
 
 MainMenu* MainWindow::mainMenu()

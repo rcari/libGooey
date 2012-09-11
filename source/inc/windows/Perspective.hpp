@@ -31,54 +31,89 @@
 #include <GooeyEngine.hpp>
 #include <GooeyExport.hpp>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtGui/QIcon>
+#include <data/Block.hpp>
+#include <QtGui/QAction>
+#include <QtGui/QStandardItemModel>
 
 namespace Gooey { namespace windows {
 
 class MainWindow;
+class ToolBar;
 class View;
 
-class GooeyExport Perspective : public QObject
+class GooeyExport Perspective : public Kore::data::Block
 {
 	Q_OBJECT
+	K_BLOCK
 
 public:
-	typedef struct
-	{
-		int			id;
-		QString		name;
-		QIcon		icon;
-	} ViewDesc;
+	Perspective();
 
-public:
 	/*!
 	 * \brief reset
 	 * \param window the mainwindow to apply a default perspective on
 	 * This will be called to reset the Perspective to its initial state.
 	 */
-	virtual void reset(MainWindow* window) = K_NULL;
+	virtual void resetLayout() = K_NULL;
 
 	/*!
-	 * \brief restore
+	 * \brief restoreLayout
 	 * \param window
 	 */
-	virtual void restore(MainWindow* window) = K_NULL;
+	virtual bool restoreLayout(const QString& name);
+
 	/*!
-	 * \brief save
+	 * \brief saveLayout
 	 * \param window
 	 */
-	virtual void save(MainWindow* window) = K_NULL;
+	virtual void saveLayout(const QString& name);
 
-public:
-	virtual QString name() const = K_NULL;
-	virtual QIcon icon() const = K_NULL;
+	QAction* action();
 
-	virtual View* createView(int id) = K_NULL;
-	virtual QList<ViewDesc> availableViews() = K_NULL;
+	QAbstractItemModel* viewsModel();
+
+protected:
+	virtual void library(Kore::data::Library* lib);
+	MainWindow* window();
+	void addViewType(const QString& displayName, const QIcon& icon, const QMetaObject* mo);
+	void setCentralWidget(QWidget* widget);
+
+signals:
+	void activated();
+	void deactivated();
+
+private slots:
+	void activationToggled(bool active);
+	void splitView(View* view, Qt::Orientation direction);
+	void replaceView(View* view, const QMetaObject* mo);
 
 private:
+	void setMainWindow(MainWindow* window);
+	View* createView(const QString& name);
+	View* createView(const QMetaObject* mo);
+	QModelIndex indexForView(const QMetaObject* mo);
+	const QMetaObject* viewForIndex(const QModelIndex& index);
+
+	void registerView(View* v);
+	void unregisterView(View* v);
+
+	void registerToolBar(ToolBar* b);
+	void unregisterToolBar(ToolBar* b);
+
+private:
+	QAction _action;
+	QStandardItemModel _viewsModel;
+	QHash<QString,const QMetaObject*> _viewTypes;
+
+	QByteArray _windowState;
+	QList<View*> _views;
+	QList<ToolBar*> _toolBars;
+
+	MainWindow* _window;
+	QWidget*	_centralWidget;
+
+	friend class MainWindow;
+	friend class View;
 };
 
 }}

@@ -36,16 +36,22 @@ QMainWindow::separator { width: 2px; height: 2px; background: black; }
 QMainWindow::separator:hover { background: red; }
 
 Gooey--windows--SideBar {
-	min-width: 64px;
+	min-width: 50px;
 	background: qlineargradient(x1:0.0, y1:0.5, x2:1.0, y2:0.5, stop:0 #404040, stop:1 #828282);
 	border-right: 2px solid black;
 }
 
 QDockWidget {
-	border: 1px solid #ffffff;
 	padding: 0px;
 	margin: 0px;
 	min-width: 200px;
 }
 
-QDockWidget::close-button { background-image: url(:/gooey/images/icons/view.close.png); }
+QDockWidget:float {
+	border: 1px solid #ffffff;
+}
+
+Gooey--windows--View > QFrame#_g_title { background: darkgrey; spacing: 0; padding: 0; border: 0; }
+Gooey--windows--View > QFrame#_g_title > * { background: transparent; }
+Gooey--windows--View > QFrame#_g_title > QPushButton { max-width: 16px; max-height: 16px; }
+Gooey--windows--View > QFrame#_g_title > QPushButton#_g_close { qproperty-icon: url(:/gooey/images/icons/view.close.png); }

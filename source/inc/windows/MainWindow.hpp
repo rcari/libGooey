@@ -36,7 +36,9 @@
 namespace Gooey { namespace windows {
 
 class MainMenu;
+class Perspective;
 class SideBar;
+class View;
 
 class GooeyExport MainWindow : public QMainWindow
 {
@@ -45,6 +47,9 @@ class GooeyExport MainWindow : public QMainWindow
 public:
 	MainWindow();
 	virtual ~MainWindow();
+
+	void addPerspective(Perspective* p);
+	void addView(View* v);
 
 	MainMenu* mainMenu();
 	SideBar* sideBar();

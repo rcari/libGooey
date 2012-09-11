@@ -48,6 +48,8 @@ void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
 {
 	switch (element)
 	{
+	case PE_FrameDockWidget:
+		return;
 	/*case PE_PanelButtonCommand:
 		if(const QStyleOptionButton* button = qstyleoption_cast<const QStyleOptionButton *>(option))
 		{
@@ -114,5 +116,16 @@ void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
 	default:
 		QPlastiqueStyle::drawPrimitive(element, option, painter, widget);
 		break;
+	}
+}
+
+QIcon GooeyStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *opt, const QWidget *widget) const
+{
+	switch(standardIcon)
+	{
+	case SP_DockWidgetCloseButton:
+		return QIcon(":/gooey/images/icons/area.close.png");
+	default:
+		return QPlastiqueStyle::standardIconImplementation(standardIcon, opt, widget);
 	}
 }
