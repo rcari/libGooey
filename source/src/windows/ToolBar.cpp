@@ -27,8 +27,19 @@
  */
 
 #include <windows/ToolBar.hpp>
+#include <windows/Perspective.hpp>
 using namespace Gooey::windows;
 
+#include <GooeyEngine.hpp>
+
 ToolBar::ToolBar()
+:	_perspective(K_NULL)
 {
+	setAllowedAreas(Qt::TopToolBarArea|Qt::RightToolBarArea|Qt::BottomToolBarArea);
+}
+
+void ToolBar::setPerspective(Perspective* p)
+{
+	K_ASSERT( _perspective == K_NULL )
+	p->registerToolBar(this);
 }

@@ -42,6 +42,11 @@ class GooeyExport ToolBar : public QToolBar
 
 public:
 	ToolBar();
+
+	void setPerspective(Perspective* p);
+
+private:
+	Perspective* _perspective;
 };
 
 }}

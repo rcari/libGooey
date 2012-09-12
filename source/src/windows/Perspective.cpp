@@ -57,14 +57,21 @@ K_BLOCK_END
 Perspective::Perspective()
 :	_action(this),
 	_window(K_NULL),
-	_centralWidget(K_NULL)
+	_mainWidget(K_NULL)
 {
 	_action.setCheckable(true); // Togglable!
 	connect(&_action, SIGNAL(toggled(bool)), SLOT(activationToggled(bool)));
 }
 
+void Perspective::resetLayout()
+{
+	K_ASSERT( _window )
+}
+
 bool Perspective::restoreLayout(const QString& layout)
 {
+	K_ASSERT( _window )
+
 	QSettings settings;
 	settings.beginGroup("Gooey");
 	settings.beginGroup( PERSPECTIVES_DIR );
@@ -117,6 +124,7 @@ bool Perspective::restoreLayout(const QString& layout)
 
 void Perspective::saveLayout(const QString& name)
 {
+	K_ASSERT( _window )
 	Q_UNUSED(name);
 }
 
@@ -187,14 +195,36 @@ void Perspective::addViewType(const QString& displayName, const QIcon& icon, con
 	_viewsModel.appendRow(item);
 }
 
-void Perspective::setCentralWidget(QWidget* widget)
+void Perspective::setMainWidget(QWidget* widget)
 {
-	_centralWidget = widget;
+	K_ASSERT( widget )
+	if(_mainWidget)
+	{
+		if(_window)
+		{
+			_window->removeMainWidget(_mainWidget);
+		}
+		_mainWidget->deleteLater();
+	}
+	_mainWidget = widget;
+	if(_window)
+	{
+		_window->addMainWidget(_mainWidget);
+	}
+}
+
+QWidget* Perspective::mainWidget()
+{
+	return _mainWidget;
 }
 
 void Perspective::setMainWindow(MainWindow* window)
 {
 	_window = window;
+	if(_mainWidget)
+	{
+		_window->addMainWidget(_mainWidget);
+	}
 }
 
 View* Perspective::createView(const QString& name)
@@ -222,8 +252,6 @@ View* Perspective::createView(const QMetaObject* mo)
 
 void Perspective::registerView(View* v)
 {
-	// Cleanup upon deactivation!
-	v->connect(this, SIGNAL(deactivated()), SLOT(deleteLater()));
 	// Split
 	connect(v, SIGNAL(split(View*,Qt::Orientation)), SLOT(splitView(View*,Qt::Orientation)));
 	// Replace
@@ -239,11 +267,17 @@ void Perspective::registerView(View* v)
 
 void Perspective::unregisterView(View* v)
 {
+	v->disconnect(this);
 	_views.removeOne(v);
 }
 
 void Perspective::registerToolBar(ToolBar* b)
 {
+	// Set a unique name
+	if(b->objectName().isNull())
+	{
+		b->setObjectName(QString("%1-%2").arg(b->metaObject()->className()).arg((qulonglong)b));
+	}
 	_toolBars.append(b);
 }
 
@@ -254,57 +288,7 @@ void Perspective::unregisterToolBar(ToolBar* b)
 
 void Perspective::activationToggled(bool active)
 {
-	if(active)
-	{
-		// Add the views
-		for(int i = 0; i < _views.size(); i++)
-		{
-			View* v = _views.at(i);
-			_window->addView(v);
-			v->show();
-		}
-
-		// Add the toolbars
-		for(int i = 0; i < _views.size(); i++)
-		{
-			View* v = _views.at(i);
-			_window->addView(v);
-			v->show();
-		}
-
-		_window->setCentralWidget(_centralWidget);
-		_centralWidget->show();
-
-		_window->restoreState(_windowState);
-
-		emit activated();
-	}
-
-	else
-	{
-		// Save the current state/layout
-		_windowState = _window->saveState();
-
-		// Remove the views
-		for(int i = 0; i < _views.size(); i++)
-		{
-			View* v = _views.at(i);
-			_window->removeDockWidget(v);
-			v->hide();
-		}
-
-		// Remove the toolbars
-		for(int i = 0; i < _toolBars.size(); i++)
-		{
-			ToolBar* t = _toolBars.at(i);
-			_window->removeToolBar(t);
-			t->hide();
-		}
-
-		_centralWidget->hide();
-
-		emit deactivated();
-	}
+	active ? activate() : deactivate();
 }
 
 void Perspective::splitView(View* view, Qt::Orientation direction)
@@ -316,6 +300,76 @@ void Perspective::replaceView(View* view, const QMetaObject* mo)
 {
 	_window->splitDockWidget(view, createView(mo), Qt::Vertical);
 	view->close();
+}
+
+void Perspective::activate()
+{
+	if(!activateAction()->isChecked())
+	{
+		activateAction()->setChecked(true);
+		// This slot will be called back!
+		return;
+	}
+
+	qDebug("Activating %s", qPrintable(objectClassName()));
+
+	// Add the views
+	for(int i = 0; i < _views.size(); i++)
+	{
+		View* v = _views.at(i);
+		_window->addView(v);
+		v->show();
+	}
+
+	// Add the toolbars
+	for(int i = 0; i < _views.size(); i++)
+	{
+		View* v = _views.at(i);
+		_window->addView(v);
+		v->show();
+	}
+
+	if(_mainWidget)
+	{
+		_window->setCurrentMainWidget(_mainWidget);
+		_mainWidget->show();
+	}
+
+	_window->restoreState(_windowState);
+
+	emit activated();
+}
+
+void Perspective::deactivate()
+{
+	qDebug("Deactivating %s", qPrintable(objectClassName()));
+
+	// Save the current state/layout
+	_windowState = _window->saveState();
+
+	// Remove the views
+	for(int i = 0; i < _views.size(); i++)
+	{
+		View* v = _views.at(i);
+		v->hide();
+		_window->removeDockWidget(v);
+	}
+
+	// Remove the toolbars
+	for(int i = 0; i < _toolBars.size(); i++)
+	{
+		ToolBar* t = _toolBars.at(i);
+		t->hide();
+		_window->removeToolBar(t);
+	}
+
+	// Hide the central widget
+	if(_mainWidget)
+	{
+		_mainWidget->hide();
+	}
+
+	emit deactivated();
 }
 
 QModelIndex Perspective::indexForView(const QMetaObject* mo)

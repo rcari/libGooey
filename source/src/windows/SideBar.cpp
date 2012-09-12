@@ -39,11 +39,15 @@ SideBar::SideBar(MainWindow* window)
 	_window(window)
 {
 	setObjectName("_g_sidebar");
-    K_ASSERT( _window->sideBar() == K_NULL )
-    setFloatable(false);
-    setMovable(false);
-	layout()->setContentsMargins(0,0,0,0);
-	layout()->setSpacing(0);
+	K_ASSERT( _window->sideBar() == K_NULL )
+	setFloatable(false);
+	setMovable(false);
+
+	// Only on the left side of the screen!
+	setAllowedAreas(Qt::LeftToolBarArea);
+
+	// Display text under the button
+	setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
 void SideBar::addAction(QAction* action)

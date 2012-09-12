@@ -45,19 +45,20 @@ class GooeyExport SideBarButton : public QToolButton
 
 class GooeyExport SideBar : public QToolBar
 {
-    Q_OBJECT
+	Q_OBJECT
 
-    friend class MainWindow;
+	friend class MainWindow;
 
 private:
-    SideBar(MainWindow* window);
+	SideBar(MainWindow* window);
 
 public:
 	void addAction(QAction* action);
 
 private:
+	QAction* _perspectiveSeparator;
 	QActionGroup _group;
-    MainWindow* _window;
+	MainWindow* _window;
 };
 
 }}

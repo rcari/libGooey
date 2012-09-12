@@ -31,7 +31,6 @@
 #include <GooeyExport.hpp>
 
 #include <QtGui/QMainWindow>
-#include <QtGui/QToolBar>
 
 namespace Gooey { namespace windows {
 
@@ -51,6 +50,7 @@ public:
 	void addPerspective(Perspective* p);
 	void addView(View* v);
 
+
 	MainMenu* mainMenu();
 	SideBar* sideBar();
 
@@ -64,9 +64,15 @@ private:
 	void loadWindowGeometry();
 	void saveWindowGeometry();
 
+	void addMainWidget(QWidget* w);
+	void removeMainWidget(QWidget* w);
+	void setCurrentMainWidget(QWidget* w);
+
 private:
-	MainMenu*	_mainMenu;
-	SideBar*	_sideBar;
+	MainMenu*		_mainMenu;
+	SideBar*		_sideBar;
+
+	friend class Perspective;
 };
 
 }}

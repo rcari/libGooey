@@ -44,6 +44,7 @@ using namespace Gooey::views;
 
 #include <QtGui/QApplication>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QStackedWidget>
 #include <QtGui/QStatusBar>
 
 #include <serialization/KoreV1.hpp>
@@ -72,6 +73,8 @@ MainWindow::MainWindow()
 	_sideBar = new SideBar(this);
 	addToolBar(Qt::LeftToolBarArea, _sideBar);
 	addToolBarBreak(Qt::LeftToolBarArea);
+
+	setCentralWidget(new QStackedWidget);
 
 	setWindowTitle(
 			QString("%1 (%2) - %3 bits %4")
@@ -160,4 +163,19 @@ void MainWindow::saveWindowGeometry()
 	settings.beginGroup("gooey");
 	settings.beginGroup("mainWindow");
 	settings.setValue(GEOMETRY, saveGeometry());
+}
+
+void MainWindow::addMainWidget(QWidget* w)
+{
+	static_cast<QStackedWidget*>(centralWidget())->addWidget(w);
+}
+
+void MainWindow::removeMainWidget(QWidget* w)
+{
+	static_cast<QStackedWidget*>(centralWidget())->removeWidget(w);
+}
+
+void MainWindow::setCurrentMainWidget(QWidget* w)
+{
+	static_cast<QStackedWidget*>(centralWidget())->setCurrentWidget(w);
 }

@@ -54,7 +54,7 @@ public:
 	 * \param window the mainwindow to apply a default perspective on
 	 * This will be called to reset the Perspective to its initial state.
 	 */
-	virtual void resetLayout() = K_NULL;
+	virtual void resetLayout();
 
 	/*!
 	 * \brief restoreLayout
@@ -69,16 +69,20 @@ public:
 	virtual void saveLayout(const QString& name);
 
 	QAction* activateAction();
+	void activate();
+	void deactivate();
 
 	bool isActive() const;
 
 	QAbstractItemModel* viewsModel();
 
+	void setMainWidget(QWidget* widget);
+	QWidget* mainWidget();
+
 protected:
 	virtual void library(Kore::data::Library* lib);
 	MainWindow* window();
 	void addViewType(const QString& displayName, const QIcon& icon, const QMetaObject* mo);
-	void setCentralWidget(QWidget* widget);
 
 signals:
 	void activated();
@@ -107,14 +111,15 @@ private:
 	QStandardItemModel _viewsModel;
 	QHash<QString,const QMetaObject*> _viewTypes;
 
-	QByteArray _windowState;
-	QList<View*> _views;
-	QList<ToolBar*> _toolBars;
+	QByteArray		_windowState;
+	QList<View*>	_views;
+	QList<ToolBar*>	_toolBars;
 
 	MainWindow* _window;
-	QWidget*	_centralWidget;
+	QWidget*	_mainWidget;
 
 	friend class MainWindow;
+	friend class ToolBar;
 	friend class View;
 };
 
