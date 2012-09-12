@@ -56,7 +56,8 @@ K_BLOCK_END
 
 Perspective::Perspective()
 :	_action(this),
-	_window(K_NULL)
+	_window(K_NULL),
+	_centralWidget(K_NULL)
 {
 	_action.setCheckable(true); // Togglable!
 	connect(&_action, SIGNAL(toggled(bool)), SLOT(activationToggled(bool)));
@@ -119,9 +120,14 @@ void Perspective::saveLayout(const QString& name)
 	Q_UNUSED(name);
 }
 
-QAction* Perspective::action()
+QAction* Perspective::activateAction()
 {
 	return &_action;
+}
+
+bool Perspective::isActive() const
+{
+	return _action.isChecked();
 }
 
 QAbstractItemModel* Perspective::viewsModel()
@@ -179,6 +185,11 @@ void Perspective::addViewType(const QString& displayName, const QIcon& icon, con
 		);
 	item->setData(QVariant::fromValue((void*)mo), Qt::UserRole + 1); // Store the metablock in the user property!
 	_viewsModel.appendRow(item);
+}
+
+void Perspective::setCentralWidget(QWidget* widget)
+{
+	_centralWidget = widget;
 }
 
 void Perspective::setMainWindow(MainWindow* window)
@@ -261,6 +272,9 @@ void Perspective::activationToggled(bool active)
 			v->show();
 		}
 
+		_window->setCentralWidget(_centralWidget);
+		_centralWidget->show();
+
 		_window->restoreState(_windowState);
 
 		emit activated();
@@ -286,6 +300,8 @@ void Perspective::activationToggled(bool active)
 			_window->removeToolBar(t);
 			t->hide();
 		}
+
+		_centralWidget->hide();
 
 		emit deactivated();
 	}

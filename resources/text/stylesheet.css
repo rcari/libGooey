@@ -37,8 +37,22 @@ QMainWindow::separator:hover { background: red; }
 
 Gooey--windows--SideBar {
 	min-width: 50px;
+    qproperty-iconSize: 48px 48px;
 	background: qlineargradient(x1:0.0, y1:0.5, x2:1.0, y2:0.5, stop:0 #404040, stop:1 #828282);
 	border-right: 2px solid black;
+}
+
+Gooey--windows--SideBar > QToolButton {
+    width: 50px; height: 50px;
+    qproperty-iconSize: 48px 48px;
+    background: transparent;
+    border: 0px; padding: 0px; margin: 0px;
+}
+
+Gooey--windows--SideBar > QToolButton:checked {
+    background: qlineargradient(x1:0.0, y1:0.0, x2:0.5, y2:0.0, x3:1.0, y3:1.0, stop:0 rgba(0,0,0,0), stop:1 rgba(0,0,0,50), stop:2 rgba(0,0,0,0));
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 QDockWidget {

@@ -31,12 +31,23 @@
 using namespace Gooey::windows;
 
 #include <GooeyEngine.hpp>
+#include <QtGui/QLayout>
 
 SideBar::SideBar(MainWindow* window)
 :	QToolBar(window),
-    _window(window)
+	_group(this),
+	_window(window)
 {
+	setObjectName("_g_sidebar");
     K_ASSERT( _window->sideBar() == K_NULL )
     setFloatable(false);
     setMovable(false);
+	layout()->setContentsMargins(0,0,0,0);
+	layout()->setSpacing(0);
+}
+
+void SideBar::addAction(QAction* action)
+{
+	_group.addAction(action);
+	QToolBar::addAction(action);
 }

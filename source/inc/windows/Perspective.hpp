@@ -68,7 +68,9 @@ public:
 	 */
 	virtual void saveLayout(const QString& name);
 
-	QAction* action();
+	QAction* activateAction();
+
+	bool isActive() const;
 
 	QAbstractItemModel* viewsModel();
 

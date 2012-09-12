@@ -30,6 +30,7 @@
 
 #include <GooeyExport.hpp>
 
+#include <QtGui/QActionGroup>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
 
@@ -51,7 +52,11 @@ class GooeyExport SideBar : public QToolBar
 private:
     SideBar(MainWindow* window);
 
+public:
+	void addAction(QAction* action);
+
 private:
+	QActionGroup _group;
     MainWindow* _window;
 };
 

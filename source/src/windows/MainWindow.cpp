@@ -93,7 +93,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::addPerspective(Perspective* p)
 {
-	sideBar()->addAction(p->action());
+	// Add the pespective activate action
+	sideBar()->addAction(p->activateAction());
+	// Set the perspective's MainWindow
 	p->setMainWindow(this);
 }
 
