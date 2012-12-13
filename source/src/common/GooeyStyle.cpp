@@ -33,6 +33,8 @@ using namespace Gooey::common;
 #include <QtGui/QStyleOption>
 #include <QtGui/QStyleOptionButton>
 
+#define PARENT_STYLE QPlastiqueStyle
+
 static QColor mergedColors(const QColor &colorA, const QColor &colorB, int factor = 50)
 {
 	const int maxFactor = 100;
@@ -114,8 +116,19 @@ void GooeyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
 			break;
 		}
 	default:
-		QPlastiqueStyle::drawPrimitive(element, option, painter, widget);
+		PARENT_STYLE::drawPrimitive(element, option, painter, widget);
 		break;
+	}
+}
+
+int GooeyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option, const QWidget* widget) const
+{
+	switch(metric)
+	{
+	case PM_SplitterWidth:
+		return 1;
+	default:
+		return PARENT_STYLE::pixelMetric(metric, option, widget);
 	}
 }
 
@@ -126,6 +139,6 @@ QIcon GooeyStyle::standardIconImplementation(StandardPixmap standardIcon, const 
 	case SP_DockWidgetCloseButton:
 		return QIcon(":/gooey/images/icons/area.close.png");
 	default:
-		return QPlastiqueStyle::standardIconImplementation(standardIcon, opt, widget);
+		return PARENT_STYLE::standardIconImplementation(standardIcon, opt, widget);
 	}
 }

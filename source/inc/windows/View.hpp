@@ -73,6 +73,8 @@ private:
 	QPushButton* _splitButton;
 	QPushButton* _floatButton;
 	QPushButton* _closeButton;
+
+	friend class Perspective;
 };
 
 }}

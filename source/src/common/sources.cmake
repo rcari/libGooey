@@ -16,6 +16,7 @@ SET (
 	${CMAKE_CURRENT_LIST_DIR}/LibraryListTreeModel.cpp
 	${CMAKE_CURRENT_LIST_DIR}/LibraryTreeModel.cpp
 	#${CMAKE_CURRENT_LIST_DIR}/LinkBlockToView.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/PackedHBoxLayout.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/PackedVBoxLayout.cpp
 	${CMAKE_CURRENT_LIST_DIR}/PropertyWidgetProxy.cpp
 )
-

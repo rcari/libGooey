@@ -44,9 +44,6 @@ LibraryListModel::LibraryListModel(Library* lib, QObject* parent)
 	connect(lib, SIGNAL(addingBlock(kint)), SLOT(addingBlock(kint)));
 	connect(lib, SIGNAL(blockAdded(kint)), SLOT(blockAdded(kint)));
 
-	connect(lib, SIGNAL(insertingBlock(kint)), SLOT(insertingBlock(kint)));
-	connect(lib, SIGNAL(blockInserted(kint)), SLOT(blockInserted(kint)));
-
 	connect(lib, SIGNAL(removingBlock(kint)), SLOT(removingBlock(kint)));
 	connect(lib, SIGNAL(blockRemoved(kint)), SLOT(blockRemoved(kint)));
 
@@ -195,16 +192,6 @@ void LibraryListModel::blockAdded(kint index)
 {
 	endInsertRows();
 	bindBlock(_rootLibrary->at(index));
-}
-
-void LibraryListModel::insertingBlock(kint index)
-{
-	addingBlock(index);
-}
-
-void LibraryListModel::blockInserted(kint index)
-{
-	blockAdded(index);
 }
 
 void LibraryListModel::removingBlock(kint index)

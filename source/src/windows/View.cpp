@@ -38,16 +38,12 @@ View::View()
 :	_perspective(K_NULL)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
-	layout()->setContentsMargins(0,0,0,0);
-	layout()->setSpacing(0);
 
 	QFrame* titleBar = new QFrame;
 	titleBar->setObjectName("_g_title");
 	setTitleBarWidget(titleBar);
 
 	QHBoxLayout* hLayout = new QHBoxLayout(titleBar);
-	hLayout->setContentsMargins(0,0,0,0);
-	hLayout->setSpacing(0);
 	_viewCombo = new QComboBox;
 	_viewCombo->blockSignals(true); // No signals emitted until ready!
 	_viewCombo->setToolTip(tr("Switch view"));

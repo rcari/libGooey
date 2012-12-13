@@ -41,6 +41,7 @@ class GooeyExport GooeyStyle : public QPlastiqueStyle
 public:
 	virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
 		QPainter *painter, const QWidget *widget) const;
+	virtual int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const;
 
 protected slots:
 	QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *opt, const QWidget *widget) const;

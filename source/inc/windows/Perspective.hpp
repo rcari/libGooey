@@ -83,6 +83,7 @@ protected:
 	virtual void library(Kore::data::Library* lib);
 	MainWindow* window();
 	void addViewType(const QString& displayName, const QIcon& icon, const QMetaObject* mo);
+	void setViewPerspective(View* v);
 
 signals:
 	void activated();

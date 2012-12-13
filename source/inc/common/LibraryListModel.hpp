@@ -69,9 +69,6 @@ private slots:
 	void addingBlock(kint index);
 	void blockAdded(kint index);
 
-	void insertingBlock(kint index);
-	void blockInserted(kint index);
-
 	void removingBlock(kint index);
 	void blockRemoved(kint index);
 

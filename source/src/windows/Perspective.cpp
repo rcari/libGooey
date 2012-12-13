@@ -195,6 +195,11 @@ void Perspective::addViewType(const QString& displayName, const QIcon& icon, con
 	_viewsModel.appendRow(item);
 }
 
+void Perspective::setViewPerspective(View* v)
+{
+	v->setPerspective(this);
+}
+
 void Perspective::setMainWidget(QWidget* widget)
 {
 	K_ASSERT( widget )
@@ -312,6 +317,13 @@ void Perspective::activate()
 	}
 
 	qDebug("Activating %s", qPrintable(objectClassName()));
+
+	if(_windowState.isNull())
+	{
+		qDebug("No layout, resetting");
+		resetLayout();
+		return;
+	}
 
 	// Add the views
 	for(int i = 0; i < _views.size(); i++)
